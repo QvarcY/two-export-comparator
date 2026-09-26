@@ -1,12 +1,8 @@
 import { el, replaceChildren, icon, Icons } from '../renderers/dom.js';
 import { AppEvents } from '../../app/app-events.js';
 import { formatBytes, formatCount, orDash, delimiterLabel } from '../renderers/format.js';
-import { t } from '../../i18n/index.js';
+import { LOCALE_CHANGE_EVENT, t } from '../../i18n/index.js';
 
-/**
- * FilePanel — renders a single file slot (A or B).
- * Does NOT read or parse file contents itself.
- */
 export class FilePanel {
   constructor({ slot }) {
     this.slot = slot;
@@ -16,7 +12,6 @@ export class FilePanel {
     this.root = el('section', {
       class: 'file-panel',
       dataset: { slot, state: 'empty' },
-      'aria-label': t('file.label', { slot }),
     });
 
     this.inspection = null;
@@ -27,14 +22,15 @@ export class FilePanel {
       type: 'file',
       accept: '.csv,.tsv,text/csv,text/tab-separated-values',
       class: 'visually-hidden',
-      'aria-label': t('file.choose', { slot }),
     });
+
     this.input.addEventListener('change', () => {
       const file = this.input.files?.[0];
       if (file) this._emitSelect(file);
       this.input.value = '';
     });
 
+    window.addEventListener(LOCALE_CHANGE_EVENT, () => this._render());
     this._render();
   }
 
@@ -43,9 +39,9 @@ export class FilePanel {
     if (!inspection) {
       this.state = 'empty';
       this.errorMessage = null;
-    } else if (inspection.warnings?.some((w) => w.severity === 'error')) {
+    } else if (inspection.warnings?.some((warning) => warning.severity === 'error')) {
       this.state = 'error';
-      this.errorMessage = inspection.warnings.find((w) => w.severity === 'error')?.title ?? t('file.genericError');
+      this.errorMessage = inspection.warnings.find((warning) => warning.severity === 'error')?.title ?? t('file.genericError');
     } else if (inspection.warnings?.length) {
       this.state = 'warning';
     } else {
@@ -79,6 +75,9 @@ export class FilePanel {
 
   _render() {
     this.root.dataset.state = this.state;
+    this.root.setAttribute('aria-label', t('file.label', { slot: this.slot }));
+    this.input.setAttribute('aria-label', t('file.choose', { slot: this.slot }));
+
     replaceChildren(this.root, [
       this.input,
       this._renderHeader(),
@@ -111,17 +110,10 @@ export class FilePanel {
   }
 
   _renderBody() {
-    switch (this.state) {
-      case 'loading':
-        return this._renderLoading();
-      case 'ready':
-      case 'warning':
-        return this._renderReady();
-      case 'error':
-        return this._renderError();
-      default:
-        return this._renderDropzone();
-    }
+    if (this.state === 'loading') return this._renderLoading();
+    if (this.state === 'ready' || this.state === 'warning') return this._renderReady();
+    if (this.state === 'error') return this._renderError();
+    return this._renderDropzone();
   }
 
   _renderDropzone() {
@@ -138,17 +130,19 @@ export class FilePanel {
       ]),
     ]);
 
-    zone.addEventListener('dragover', (e) => {
-      e.preventDefault();
+    zone.addEventListener('dragover', (event) => {
+      event.preventDefault();
       zone.dataset.dragover = 'true';
     });
+
     zone.addEventListener('dragleave', () => {
       delete zone.dataset.dragover;
     });
-    zone.addEventListener('drop', (e) => {
-      e.preventDefault();
+
+    zone.addEventListener('drop', (event) => {
+      event.preventDefault();
       delete zone.dataset.dragover;
-      const file = e.dataTransfer?.files?.[0];
+      const file = event.dataTransfer?.files?.[0];
       if (file) this._emitSelect(file);
     });
 
@@ -165,37 +159,37 @@ export class FilePanel {
   }
 
   _renderReady() {
-    const i = this.inspection;
+    const inspection = this.inspection;
     const children = [];
 
     children.push(el('dl', { class: 'file-panel__meta' }, [
-      this._metaItem(t('file.rows'), formatCount(i.rowCount)),
-      this._metaItem(t('file.columns'), formatCount(i.columns.length)),
-      this._metaItem(t('file.delimiter'), delimiterLabel(i.delimiter)),
-      this._metaItem(t('file.encoding'), orDash(i.encoding)),
-      this._metaItem(t('file.size'), formatBytes(i.sizeBytes)),
+      this._metaItem(t('file.rows'), formatCount(inspection.rowCount)),
+      this._metaItem(t('file.columns'), formatCount(inspection.columns.length)),
+      this._metaItem(t('file.delimiter'), delimiterLabel(inspection.delimiter)),
+      this._metaItem(t('file.encoding'), orDash(inspection.encoding)),
+      this._metaItem(t('file.size'), formatBytes(inspection.sizeBytes)),
     ]));
 
-    if (i.warnings?.length) {
+    if (inspection.warnings?.length) {
       children.push(el('div', { class: 'file-panel__warnings' },
-        i.warnings.slice(0, 3).map((w) =>
+        inspection.warnings.slice(0, 3).map((warning) =>
           el('div', {
             class: 'toast',
-            dataset: { severity: w.severity },
-            role: w.severity === 'error' ? 'alert' : 'status',
+            dataset: { severity: warning.severity },
+            role: warning.severity === 'error' ? 'alert' : 'status',
           }, [
             icon(Icons.alert, { size: 14 }),
             el('div', {}, [
-              el('div', { class: 'u-weight-semi', text: w.title }),
-              w.message ? el('div', { class: 'u-text-sm u-text-muted', text: w.message }) : null,
+              el('div', { class: 'u-weight-semi', text: warning.title }),
+              warning.message ? el('div', { class: 'u-text-sm u-text-muted', text: warning.message }) : null,
             ]),
           ])
         )
       ));
     }
 
-    if (i.previewRows?.length && i.columns?.length) {
-      children.push(this._renderPreview(i));
+    if (inspection.previewRows?.length && inspection.columns?.length) {
+      children.push(this._renderPreview(inspection));
     }
 
     return el('div', { class: 'file-panel__body' }, children);
@@ -208,18 +202,18 @@ export class FilePanel {
     ]);
   }
 
-  _renderPreview(i) {
-    const cols = i.columns.slice(0, 5);
+  _renderPreview(inspection) {
+    const columns = inspection.columns.slice(0, 5);
 
     const thead = el('thead', {}, [
-      el('tr', {}, cols.map((c) =>
-        el('th', { scope: 'col', text: c.label, title: c.label })
+      el('tr', {}, columns.map((column) =>
+        el('th', { scope: 'col', text: column.label, title: column.label })
       )),
     ]);
 
-    const tbody = el('tbody', {}, i.previewRows.slice(0, 5).map((row) =>
-      el('tr', {}, cols.map((c) =>
-        el('td', { text: orDash(row[c.id]) })
+    const tbody = el('tbody', {}, inspection.previewRows.slice(0, 5).map((row) =>
+      el('tr', {}, columns.map((column) =>
+        el('td', { text: orDash(row[column.id]) })
       ))
     ));
 
@@ -228,12 +222,12 @@ export class FilePanel {
       el('div', { class: 'file-panel__preview-scroll' }, [
         el('table', { class: 'file-panel__preview-table' }, [thead, tbody]),
       ]),
-      i.rowCount && i.rowCount > i.previewRows.length
+      inspection.rowCount && inspection.rowCount > inspection.previewRows.length
         ? el('div', {
             class: 'file-panel__preview-foot u-text-xs u-text-faint',
             text: t('file.showingRows', {
-              shown: Math.min(i.previewRows.length, 5),
-              total: formatCount(i.rowCount),
+              shown: Math.min(inspection.previewRows.length, 5),
+              total: formatCount(inspection.rowCount),
             }),
           })
         : null,

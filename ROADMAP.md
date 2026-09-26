@@ -27,12 +27,19 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Pagination instead of rendering the whole result set.
 - ✅ English + Latvian i18n registry foundation.
 - ✅ Language selector driven by locale registry.
+- ✅ Live EN/LV switching without page reload.
+- ✅ Language switching preserves in-memory files and mapping state.
+- ✅ EN/LV coverage through the main workflow.
 - ✅ English and Latvian README.
 - ✅ Translation contribution guide.
 - ✅ Canonical roadmap.
-- 🟡 Translate every remaining mapping/results/error string through i18n.
-- 🟡 Resolve frontend technical audit findings.
-- ⬜ Verify clean production build after the full frontend cleanup.
+- ✅ One real main landmark instead of duplicate main IDs.
+- ✅ Mock file replacement keeps stable A/B slot IDs.
+- ✅ Comparison failure returns to a usable mapping state.
+- ✅ Package metadata aligned with the Vite 7 lockfile baseline.
+- ✅ Repository line-ending policy added.
+- 🟡 Clean production build verification pending.
+- 🟡 Source-generated parser warnings will move to code-based localization in Phase 2.
 
 **Exit criteria:** complete bilingual UI, clean build, no duplicate IDs, package metadata consistent, no known frontend blocker.
 
@@ -133,9 +140,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | --- | --- | --- | --- |
 | 2026-09-26 | R0 — Scaffold | ✅ | Vite project, service boundary, initial repository baseline. |
 | 2026-09-26 | R1 — Frontend prototype | ✅ | File panels, mapping UI, progress view, result dashboard and drawer added. |
-| 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, language selector foundation, bilingual README, translation guide, canonical roadmap, line-ending policy and package metadata cleanup. |
-| — | R3 — Full UI localization + frontend audit | 🟡 | Next: wire every remaining UI string to i18n and close known frontend audit findings. |
+| 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
+| 2026-09-26 | R3 — Live i18n + frontend cleanup | 🟡 | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, fixed mock slot replacement and comparison error recovery. Build verification pending. |
 
 ## Next target / Nākamais mērķis
 
-**R3:** complete EN/LV coverage through the whole workflow, finish frontend technical cleanup, then produce the first clean production build before implementing the real parser.
+**R3 exit check:** run a clean production build and switch EN ↔ LV while files are already selected and while the mapping screen is open. After that, start Phase 2 with the real CSV/TSV inspector.

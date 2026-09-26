@@ -16,10 +16,11 @@ export class MockComparisonService extends ComparisonService {
    * @param {object} [options]
    * @returns {Promise<import('../models/contracts.js').FileInspection>}
    */
-  async inspectFile(file, _options = {}) {
+  async inspectFile(file, options = {}) {
     await this._delay(420);
 
-    const id = `file-${this._files.size === 0 ? 'a' : 'b'}`;
+    const slot = options.slot === 'A' || options.slot === 'B' ? options.slot : null;
+    const id = slot ? 'file-' + slot.toLowerCase() : (this._files.has('file-a') ? 'file-b' : 'file-a');
     const isA = id === 'file-a';
 
     /** @type {import('../models/contracts.js').FileInspection} */

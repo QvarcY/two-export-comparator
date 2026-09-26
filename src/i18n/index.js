@@ -1,6 +1,7 @@
 import { localeRegistry } from './locales/index.js';
 
 const FALLBACK_LOCALE = 'en';
+export const LOCALE_CHANGE_EVENT = 'tec:localechange';
 
 function normalizeLocale(value) {
   return String(value || '').trim().toLowerCase().split('-')[0];
@@ -25,8 +26,12 @@ function detectLocale() {
 
 let activeLocale = detectLocale();
 
-document.documentElement.lang = activeLocale;
-document.documentElement.dataset.locale = activeLocale;
+function applyDocumentLocale() {
+  document.documentElement.lang = activeLocale;
+  document.documentElement.dataset.locale = activeLocale;
+}
+
+applyDocumentLocale();
 
 export function getLocale() {
   return activeLocale;
@@ -56,7 +61,20 @@ export function setLocale(locale) {
   const next = normalizeLocale(locale);
   if (!localeRegistry[next] || next === activeLocale) return;
 
+  const previous = activeLocale;
+  activeLocale = next;
+  applyDocumentLocale();
+
   const url = new URL(window.location.href);
   url.searchParams.set('lang', next);
-  window.location.assign(url.toString());
+
+  try {
+    window.history.replaceState(window.history.state, '', url.toString());
+  } catch {
+    // The language switch must still work if the URL cannot be rewritten.
+  }
+
+  window.dispatchEvent(new CustomEvent(LOCALE_CHANGE_EVENT, {
+    detail: { previous, current: next },
+  }));
 }

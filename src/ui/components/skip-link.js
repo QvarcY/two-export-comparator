@@ -1,10 +1,18 @@
 import { el } from '../renderers/dom.js';
-import { t } from '../../i18n/index.js';
+import { LOCALE_CHANGE_EVENT, t } from '../../i18n/index.js';
 
 export function SkipLink() {
-  return el('a', {
+  const link = el('a', {
     href: '#main',
     class: 'skip-link',
-    text: t('skip.content'),
   });
+
+  const sync = () => {
+    link.textContent = t('skip.content');
+  };
+
+  window.addEventListener(LOCALE_CHANGE_EVENT, sync);
+  sync();
+
+  return link;
 }

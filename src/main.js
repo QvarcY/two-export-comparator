@@ -14,35 +14,31 @@ import { ToastHost } from './ui/components/toast-host.js';
 import { SkipLink } from './ui/components/skip-link.js';
 import { LanguageSwitcher } from './ui/components/language-switcher.js';
 import { el, replaceChildren } from './ui/renderers/dom.js';
-import { t } from './i18n/index.js';
+import { LOCALE_CHANGE_EVENT, t } from './i18n/index.js';
 
-/**
- * Bootstrap the application.
- * @param {{ comparisonService?: import('./services/comparison-service.js').ComparisonService }} [config]
- */
 export function startApp(config = {}) {
   const service = config.comparisonService ?? new MockComparisonService();
   const store = new AppStore();
   const controller = new AppController(store, service);
-
   const root = document.getElementById('app');
 
-  document.title = t('meta.title');
-  const description = document.querySelector('meta[name="description"]');
-  if (description) description.setAttribute('content', t('meta.description'));
+  const brandText = el('span');
+  const tagline = el('span', { class: 'app-header__tagline' });
+  const privacyText = el('span');
+  const privacyBadge = el('span', { class: 'privacy-badge' }, [
+    el('span', { class: 'privacy-badge__dot', 'aria-hidden': 'true' }),
+    privacyText,
+  ]);
 
   const header = el('header', { class: 'app-header' }, [
     el('div', { class: 'app-header__brand' }, [
       el('div', { class: 'app-header__mark', text: '⇄' }),
-      el('span', { text: t('app.brand') }),
+      brandText,
     ]),
     el('div', { class: 'app-header__meta' }, [
-      el('span', { class: 'app-header__tagline', text: t('app.tagline') }),
+      tagline,
       LanguageSwitcher(),
-      el('span', { class: 'privacy-badge', title: t('app.filesNeverLeave') }, [
-        el('span', { class: 'privacy-badge__dot', 'aria-hidden': 'true' }),
-        el('span', { text: t('app.localOnly') }),
-      ]),
+      privacyBadge,
     ]),
   ]);
 
@@ -66,13 +62,27 @@ export function startApp(config = {}) {
     toastHost.root,
   ]);
 
-  const sync = () => {
-    root.dataset.state = store.state;
-    const showLanding = ['EMPTY', 'FILES_PARTIAL', 'FILES_READY'].includes(store.state);
-    landingView.root.hidden = !showLanding;
+  const syncLanguage = () => {
+    document.title = t('meta.title');
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute('content', t('meta.description'));
+
+    brandText.textContent = t('app.brand');
+    tagline.textContent = t('app.tagline');
+    privacyText.textContent = t('app.localOnly');
+    privacyBadge.title = t('app.filesNeverLeave');
   };
-  store.addEventListener('state', sync);
-  sync();
+
+  const syncState = () => {
+    root.dataset.state = store.state;
+    landingView.root.hidden = !['EMPTY', 'FILES_PARTIAL', 'FILES_READY'].includes(store.state);
+  };
+
+  window.addEventListener(LOCALE_CHANGE_EVENT, syncLanguage);
+  store.addEventListener('state', syncState);
+
+  syncLanguage();
+  syncState();
 
   if (import.meta.env?.DEV) {
     window.__app = { store, controller, service };
