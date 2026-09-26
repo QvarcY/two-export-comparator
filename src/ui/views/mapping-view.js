@@ -2,15 +2,11 @@ import { el } from '../renderers/dom.js';
 import { MappingEditor } from '../components/mapping-editor.js';
 
 export class MappingView {
-  /**
-   * @param {import('../../app/app-store.js').AppStore} store
-   * @param {import('../../services/comparison-service.js').ComparisonService} service
-   */
   constructor(store, service) {
     this.store = store;
     this.editor = new MappingEditor(store, service);
 
-    this.root = el('main', { class: 'app-main', id: 'main', hidden: '' }, [
+    this.root = el('section', { class: 'app-main', hidden: '' }, [
       el('div', { class: 'u-container' }, [this.editor.root]),
     ]);
 

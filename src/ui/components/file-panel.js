@@ -1,16 +1,13 @@
 import { el, replaceChildren, icon, Icons } from '../renderers/dom.js';
 import { AppEvents } from '../../app/app-events.js';
 import { formatBytes, formatCount, orDash, delimiterLabel } from '../renderers/format.js';
+import { t } from '../../i18n/index.js';
 
 /**
  * FilePanel — renders a single file slot (A or B).
  * Does NOT read or parse file contents itself.
- * Emits FILE_A_SELECTED / FILE_B_SELECTED / FILE_A_REMOVED / FILE_B_REMOVED.
  */
 export class FilePanel {
-  /**
-   * @param {{ slot: 'A' | 'B' }} config
-   */
   constructor({ slot }) {
     this.slot = slot;
     this.fileEvent = slot === 'A' ? AppEvents.FILE_A_SELECTED : AppEvents.FILE_B_SELECTED;
@@ -19,23 +16,18 @@ export class FilePanel {
     this.root = el('section', {
       class: 'file-panel',
       dataset: { slot, state: 'empty' },
-      'aria-label': `File ${slot}`,
+      'aria-label': t('file.label', { slot }),
     });
 
-    /** @type {import('../../models/contracts.js').FileInspection | null} */
     this.inspection = null;
-
-    /** @type {'empty' | 'loading' | 'ready' | 'warning' | 'error'} */
     this.state = 'empty';
-
-    /** @type {string | null} */
     this.errorMessage = null;
 
     this.input = el('input', {
       type: 'file',
       accept: '.csv,.tsv,text/csv,text/tab-separated-values',
       class: 'visually-hidden',
-      'aria-label': `Choose File ${slot}`,
+      'aria-label': t('file.choose', { slot }),
     });
     this.input.addEventListener('change', () => {
       const file = this.input.files?.[0];
@@ -46,10 +38,6 @@ export class FilePanel {
     this._render();
   }
 
-  /**
-   * Update the panel with new inspection data.
-   * @param {import('../../models/contracts.js').FileInspection | null} inspection
-   */
   setInspection(inspection) {
     this.inspection = inspection;
     if (!inspection) {
@@ -57,7 +45,7 @@ export class FilePanel {
       this.errorMessage = null;
     } else if (inspection.warnings?.some((w) => w.severity === 'error')) {
       this.state = 'error';
-      this.errorMessage = inspection.warnings.find((w) => w.severity === 'error')?.title ?? 'Something went wrong';
+      this.errorMessage = inspection.warnings.find((w) => w.severity === 'error')?.title ?? t('file.genericError');
     } else if (inspection.warnings?.length) {
       this.state = 'warning';
     } else {
@@ -66,38 +54,29 @@ export class FilePanel {
     this._render();
   }
 
-  /** Show a loading state while the service inspects the file. */
   setLoading() {
     this.state = 'loading';
     this._render();
   }
 
-  /**
-   * Show an error state.
-   * @param {string} message
-   */
   setError(message) {
     this.state = 'error';
     this.errorMessage = message;
     this._render();
   }
 
-  /** @private */
   _emitSelect(file) {
     window.dispatchEvent(new CustomEvent(this.fileEvent, { detail: { file } }));
   }
 
-  /** @private */
   _emitRemove() {
     window.dispatchEvent(new CustomEvent(this.removeEvent));
   }
 
-  /** @private */
   _openPicker() {
     this.input.click();
   }
 
-  /** @private */
   _render() {
     this.root.dataset.state = this.state;
     replaceChildren(this.root, [
@@ -107,32 +86,30 @@ export class FilePanel {
     ]);
   }
 
-  /** @private */
   _renderHeader() {
     return el('header', { class: 'file-panel__header' }, [
       el('div', { class: 'file-panel__label' }, [
-        el('span', { class: 'file-panel__slot', text: `FILE ${this.slot}` }),
+        el('span', { class: 'file-panel__slot', text: t('file.label', { slot: this.slot }).toUpperCase() }),
         this.inspection
           ? el('span', {
               class: 'file-panel__name u-truncate',
               text: this.inspection.name,
               title: this.inspection.name,
             })
-          : el('span', { class: 'file-panel__name file-panel__name--empty', text: 'No file selected' }),
+          : el('span', { class: 'file-panel__name file-panel__name--empty', text: t('file.none') }),
       ]),
       this.inspection
         ? el('button', {
             type: 'button',
             class: 'btn btn--ghost btn--icon',
-            'aria-label': `Remove File ${this.slot}`,
-            title: 'Remove',
+            'aria-label': t('file.removeSlot', { slot: this.slot }),
+            title: t('file.remove'),
             onclick: () => this._emitRemove(),
           }, [icon(Icons.x, { size: 14 })])
         : null,
     ]);
   }
 
-  /** @private */
   _renderBody() {
     switch (this.state) {
       case 'loading':
@@ -142,24 +119,22 @@ export class FilePanel {
         return this._renderReady();
       case 'error':
         return this._renderError();
-      case 'empty':
       default:
         return this._renderDropzone();
     }
   }
 
-  /** @private */
   _renderDropzone() {
     const zone = el('button', {
       type: 'button',
       class: 'file-panel__dropzone',
-      'aria-label': `Choose File ${this.slot} — CSV or TSV`,
+      'aria-label': t('file.chooseCsv', { slot: this.slot }),
       onclick: () => this._openPicker(),
     }, [
       el('div', { class: 'file-panel__dropzone-icon' }, [icon(Icons.upload, { size: 22 })]),
       el('div', { class: 'file-panel__dropzone-text' }, [
-        el('span', { class: 'file-panel__dropzone-primary', text: 'Drop CSV/TSV or browse' }),
-        el('span', { class: 'file-panel__dropzone-secondary', text: 'Files stay in this browser' }),
+        el('span', { class: 'file-panel__dropzone-primary', text: t('file.drop') }),
+        el('span', { class: 'file-panel__dropzone-secondary', text: t('file.staysLocal') }),
       ]),
     ]);
 
@@ -180,7 +155,6 @@ export class FilePanel {
     return zone;
   }
 
-  /** @private */
   _renderLoading() {
     return el('div', { class: 'file-panel__body file-panel__body--loading' }, [
       el('div', { class: 'skeleton skeleton--line skeleton--w60' }),
@@ -190,17 +164,16 @@ export class FilePanel {
     ]);
   }
 
-  /** @private */
   _renderReady() {
     const i = this.inspection;
     const children = [];
 
     children.push(el('dl', { class: 'file-panel__meta' }, [
-      this._metaItem('Rows', formatCount(i.rowCount)),
-      this._metaItem('Columns', formatCount(i.columns.length)),
-      this._metaItem('Delimiter', delimiterLabel(i.delimiter)),
-      this._metaItem('Encoding', orDash(i.encoding)),
-      this._metaItem('Size', formatBytes(i.sizeBytes)),
+      this._metaItem(t('file.rows'), formatCount(i.rowCount)),
+      this._metaItem(t('file.columns'), formatCount(i.columns.length)),
+      this._metaItem(t('file.delimiter'), delimiterLabel(i.delimiter)),
+      this._metaItem(t('file.encoding'), orDash(i.encoding)),
+      this._metaItem(t('file.size'), formatBytes(i.sizeBytes)),
     ]));
 
     if (i.warnings?.length) {
@@ -228,7 +201,6 @@ export class FilePanel {
     return el('div', { class: 'file-panel__body' }, children);
   }
 
-  /** @private */
   _metaItem(label, value) {
     return el('div', { class: 'file-panel__meta-item' }, [
       el('dt', { class: 'file-panel__meta-label', text: label }),
@@ -236,7 +208,6 @@ export class FilePanel {
     ]);
   }
 
-  /** @private */
   _renderPreview(i) {
     const cols = i.columns.slice(0, 5);
 
@@ -253,34 +224,36 @@ export class FilePanel {
     ));
 
     return el('div', { class: 'file-panel__preview' }, [
-      el('div', { class: 'file-panel__preview-label u-text-xs u-text-faint', text: 'PREVIEW' }),
+      el('div', { class: 'file-panel__preview-label u-text-xs u-text-faint', text: t('file.preview') }),
       el('div', { class: 'file-panel__preview-scroll' }, [
         el('table', { class: 'file-panel__preview-table' }, [thead, tbody]),
       ]),
       i.rowCount && i.rowCount > i.previewRows.length
         ? el('div', {
             class: 'file-panel__preview-foot u-text-xs u-text-faint',
-            text: `Showing ${Math.min(i.previewRows.length, 5)} of ${formatCount(i.rowCount)} rows`,
+            text: t('file.showingRows', {
+              shown: Math.min(i.previewRows.length, 5),
+              total: formatCount(i.rowCount),
+            }),
           })
         : null,
     ]);
   }
 
-  /** @private */
   _renderError() {
     return el('div', { class: 'file-panel__body' }, [
       el('div', { class: 'toast', dataset: { severity: 'error' }, role: 'alert' }, [
         icon(Icons.alert, { size: 16 }),
         el('div', {}, [
-          el('div', { class: 'u-weight-semi', text: "We couldn't read that file" }),
-          el('div', { class: 'u-text-sm u-text-muted', text: this.errorMessage ?? 'Try a different CSV or TSV export.' }),
+          el('div', { class: 'u-weight-semi', text: t('file.readError') }),
+          el('div', { class: 'u-text-sm u-text-muted', text: this.errorMessage ?? t('file.tryDifferent') }),
         ]),
       ]),
       el('button', {
         type: 'button',
         class: 'btn btn--secondary btn--sm u-mt-2',
         onclick: () => this._openPicker(),
-      }, [icon(Icons.refresh, { size: 14 }), 'Choose another file']),
+      }, [icon(Icons.refresh, { size: 14 }), t('file.chooseAnother')]),
     ]);
   }
 }

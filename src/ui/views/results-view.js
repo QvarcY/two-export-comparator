@@ -15,17 +15,13 @@ const CARDS = [
   { status: 'MATCHED', label: 'Matched' },
 ];
 
-/**
- * ResultsView — summary cards, filters, table, drawer, export.
- */
 export class ResultsView {
-  /** @param {import('../../app/app-store.js').AppStore} store */
   constructor(store) {
     this.store = store;
     this.table = new ResultsTable(store);
     this.drawer = new RecordDetailDrawer(store);
 
-    this.root = el('main', { class: 'app-main', id: 'main', hidden: '' });
+    this.root = el('section', { class: 'app-main', hidden: '' });
     store.addEventListener('state', () => this._sync());
     store.addEventListener('change', () => this._sync());
     this._sync();
@@ -43,7 +39,7 @@ export class ResultsView {
 
   _countFor(status) {
     const s = this.store.result.summary;
-    if (status === 'ALL') return s.totalA + s.totalB;
+    if (status === 'ALL') return s.matched + s.onlyA + s.onlyB + s.mismatched + s.duplicates + s.ambiguous;
     if (status === 'MISMATCH') return s.mismatched;
     if (status === 'ONLY_A') return s.onlyA;
     if (status === 'ONLY_B') return s.onlyB;
@@ -79,7 +75,7 @@ export class ResultsView {
             el('h2', { class: 'results-header__title', text: 'Comparison complete' }),
             el('p', {
               class: 'results-header__sub u-text-muted',
-              text: `${formatCount(s.totalA)} rows in File A · ${formatCount(s.totalB)} rows in File B`,
+              text: formatCount(s.totalA) + ' rows in File A · ' + formatCount(s.totalB) + ' rows in File B',
             }),
           ]),
           el('div', { class: 'results-header__actions' }, [
@@ -95,9 +91,7 @@ export class ResultsView {
             }, [icon(Icons.table, { size: 14 }), 'Export CSV']),
           ]),
         ]),
-
         el('div', { class: 'summary-grid', role: 'tablist', 'aria-label': 'Result filters' }, cards),
-
         this.table.root,
       ]),
       this.drawer.root,

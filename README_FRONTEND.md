@@ -1,14 +1,31 @@
-# Two-Export Comparator — Frontend
+# Frontend architecture notes
 
-A privacy-first browser utility that compares two CSV/TSV exports locally
-and identifies missing, duplicate, ambiguous and mismatched records.
+The public project description lives in [README.md](README.md) and [README.lv.md](README.lv.md).
 
-**Two files in. Differences out. No account. No upload. No cloud database.**
+The frontend is intentionally separated from the future comparison engine:
+
+~~~text
+UI / views / components
+        ↓
+AppController + AppStore
+        ↓
+ComparisonService
+        ↓
+MockComparisonService     (current prototype)
+BrowserComparisonService  (future production engine)
+~~~
 
 ## Commands
 
-```bash
-npm install      # install dev dependencies
-npm run dev      # start Vite dev server
-npm run build    # produce static ./dist
-npm run preview  # preview the production build
+~~~bash
+npm install
+npm run dev
+npm run build
+npm run preview
+~~~
+
+## Important
+
+Do not implement parser, normalization or comparison algorithms inside UI components.
+
+Language files live under src/i18n/locales/. See [docs/TRANSLATIONS.md](docs/TRANSLATIONS.md).

@@ -1,6 +1,7 @@
 import { el, icon, Icons } from '../renderers/dom.js';
 import { FilePanel } from '../components/file-panel.js';
 import { PrivacyNote } from '../components/privacy-note.js';
+import { t } from '../../i18n/index.js';
 
 export class LandingView {
   /** @param {import('../../app/app-store.js').AppStore} store */
@@ -9,18 +10,18 @@ export class LandingView {
     this.filePanelA = new FilePanel({ slot: 'A' });
     this.filePanelB = new FilePanel({ slot: 'B' });
 
-    this.root = el('main', { class: 'landing', id: 'main' }, [
+    this.root = el('section', { class: 'landing' }, [
       el('section', { class: 'landing__hero' }, [
         el('h1', { class: 'landing__title' }, [
-          'Compare two exports. ',
-          el('span', { class: 'landing__title-accent', text: "Find what doesn't match." }),
+          t('landing.titlePrefix'),
+          el('span', { class: 'landing__title-accent', text: t('landing.titleAccent') }),
         ]),
         el('p', {
           class: 'landing__subtitle',
-          text: 'Two files in. Differences out. No account, no upload, no cloud database.',
+          text: t('landing.subtitle'),
         }),
       ]),
-      el('section', { class: 'landing__workflow', 'aria-label': 'File selection' }, [
+      el('section', { class: 'landing__workflow', 'aria-label': t('landing.fileSelection') }, [
         this.filePanelA.root,
         el('div', { class: 'landing__connector', 'aria-hidden': 'true' }, [icon(Icons.arrowRight, { size: 18 })]),
         this.filePanelB.root,

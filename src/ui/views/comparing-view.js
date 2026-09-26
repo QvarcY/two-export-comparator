@@ -1,10 +1,9 @@
 import { el, replaceChildren, icon, Icons } from '../renderers/dom.js';
 
 export class ComparingView {
-  /** @param {import('../../app/app-store.js').AppStore} store */
   constructor(store) {
     this.store = store;
-    this.root = el('main', { class: 'app-main', id: 'main', hidden: '' });
+    this.root = el('section', { class: 'app-main', hidden: '' });
     store.addEventListener('state', () => this._sync());
     store.addEventListener('change', () => this._sync());
     this._sync();
@@ -47,7 +46,7 @@ export class ComparingView {
           }, [
             el('div', {
               class: 'comparing__bar-fill',
-              style: determinate ? `width:${pct}%` : '',
+              style: determinate ? 'width:' + pct + '%' : '',
               dataset: { indeterminate: determinate ? 'false' : 'true' },
             }),
           ]),
