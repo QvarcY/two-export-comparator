@@ -81,7 +81,12 @@ export class MockComparisonService extends ComparisonService {
         fileA.columns.some((c) => c.id === a) &&
         fileB.columns.some((c) => c.id === b)
       ) {
-        suggestions.push({ columnA: a, columnB: b, confidence: 0.91 });
+        suggestions.push({
+          role: suggestions.length === 0 ? 'key' : 'comparison',
+          columnA: a,
+          columnB: b,
+          confidence: 0.91,
+        });
       }
     }
     return suggestions;

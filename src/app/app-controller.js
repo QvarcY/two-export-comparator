@@ -170,7 +170,19 @@ export class AppController {
         return;
       }
 
-      const [keySuggestion, ...comparisonSuggestions] = suggestions;
+      const keySuggestion = suggestions.find((suggestion) => suggestion.role === 'key')
+        ?? suggestions[0];
+
+      if (!keySuggestion) {
+        this.store.patch({ mapping: null, mappingValid: false });
+        this.store.setState('MAPPING');
+        return;
+      }
+
+      const comparisonSuggestions = suggestions.filter((suggestion) => (
+        suggestion !== keySuggestion && suggestion.role !== 'key'
+      ));
+
       const mapping = {
         keys: [{
           columnA: keySuggestion.columnA,

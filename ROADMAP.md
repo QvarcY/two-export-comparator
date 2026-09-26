@@ -70,6 +70,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ⬜ User-selected ambiguous date format.
 - ✅ Numeric tolerance: absolute and percentage.
 - ✅ Deterministic column mapping suggestions without AI.
+- ✅ Conservative key-confidence margin prevents silent auto-selection when multiple identifier keys are equally plausible.
+- ✅ Known semantic groups are not auto-paired across conflicting meanings.
 - 🟡 Basic mapping validation exists; error UX still needs hardening.
 
 **Exit criteria:** mappings are explicit, auditable and never silently guess ambiguous formats.
@@ -105,6 +107,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 
 - ✅ Node test coverage for parser and browser comparison service.
 - ✅ Synthetic behavior fixtures for real comparison outcomes.
+- ✅ Negative parser/mapping tests cover malformed quotes, corrupt UTF-8 markers, duplicate headers, empty files, ambiguous keys and semantic conflicts.
+- ✅ CSV export regression coverage protects formula-like key cells.
 - ⬜ Integration tests.
 - ⬜ Regression tests that fail on the pre-fix behavior.
 - ⬜ Accessibility audit: keyboard, labels, focus, screen reader semantics.
@@ -147,8 +151,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
 | 2026-09-26 | R5 — Real browser engine MVP | ✅ | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Regression fixtures pass (4/4) and production build verified locally. |
 | 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
-| 2026-09-26 | R7 — Alpha release preparation | 🟡 | Prepared v0.1.0-alpha.1 metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview upload and tagged prerelease remain. |
+| 2026-09-26 | R7 — Alpha release preparation | ✅ | Prepared and published v0.1.0-alpha.1 prerelease metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview remains deferred until repository publication. |
+| 2026-09-26 | R8 — Automatic matching hardening | ✅ | Added explicit mapping roles, conservative key ambiguity rejection, semantic conflict guards and broader parser/normalization/export regression coverage without changing the primary workflow. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** publish the Social Preview, tag `v0.1.0-alpha.1` as a prerelease, then continue matching/normalization hardening without expanding the core workflow.
+**Next:** conservative date-format handling, accessibility/security review and measured large-file behavior — without expanding the core workflow.

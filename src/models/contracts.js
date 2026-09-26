@@ -42,6 +42,14 @@
  */
 
 /**
+ * @typedef {Object} MappingSuggestion
+ * @property {'key' | 'comparison'} role
+ * @property {string} columnA
+ * @property {string} columnB
+ * @property {number} confidence
+ */
+
+/**
  * @typedef {Object} Tolerance
  * @property {'absolute' | 'percentage'} mode
  * @property {number} value

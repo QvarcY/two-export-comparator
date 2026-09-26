@@ -1,3 +1,6 @@
+const MIN_KEY_SCORE = 0.55;
+const MIN_KEY_MARGIN = 0.08;
+
 export function suggestColumnMappings(fileA, fileB, dataA, dataB) {
   const columnsA = fileA.columns ?? [];
   const columnsB = fileB.columns ?? [];
@@ -8,6 +11,7 @@ export function suggestColumnMappings(fileA, fileB, dataA, dataB) {
   if (!keyCandidate) return [];
 
   const suggestions = [{
+    role: 'key',
     columnA: keyCandidate.a.id,
     columnB: keyCandidate.b.id,
     confidence: round(keyCandidate.score),
@@ -23,6 +27,7 @@ export function suggestColumnMappings(fileA, fileB, dataA, dataB) {
     for (const columnB of columnsB) {
       if (usedB.has(columnB.id)) continue;
       if (!compatibleTypes(columnA.inferredType, columnB.inferredType)) continue;
+      if (!semanticallyCompatible(columnA.label, columnB.label)) continue;
 
       const score = comparePairScore(columnA, columnB, dataA.rows, dataB.rows);
       if (!best || score > best.score) best = { a: columnA, b: columnB, score };
@@ -30,6 +35,7 @@ export function suggestColumnMappings(fileA, fileB, dataA, dataB) {
 
     if (best && best.score >= 0.48) {
       suggestions.push({
+        role: 'comparison',
         columnA: best.a.id,
         columnB: best.b.id,
         confidence: round(best.score),
@@ -42,11 +48,12 @@ export function suggestColumnMappings(fileA, fileB, dataA, dataB) {
 }
 
 function bestKeyPair(columnsA, columnsB, rowsA, rowsB) {
-  let best = null;
+  const candidates = [];
 
   for (const a of columnsA) {
     for (const b of columnsB) {
       if (!compatibleTypes(a.inferredType, b.inferredType)) continue;
+      if (!semanticallyCompatible(a.label, b.label)) continue;
 
       const valuesA = nonEmpty(rowsA.map((row) => row[a.id]));
       const valuesB = nonEmpty(rowsB.map((row) => row[b.id]));
@@ -55,14 +62,36 @@ function bestKeyPair(columnsA, columnsB, rowsA, rowsB) {
       const overlap = overlapRatio(valuesA, valuesB);
       const uniqueness = Math.min(uniqueRatio(valuesA), uniqueRatio(valuesB));
       const semantic = semanticSimilarity(a.label, b.label);
-
       const score = overlap * 0.62 + uniqueness * 0.25 + semantic * 0.13;
 
-      if (!best || score > best.score) best = { a, b, score };
+      candidates.push({
+        a,
+        b,
+        score,
+        identifier: semanticGroup(a.label) === 'identifier' &&
+          semanticGroup(b.label) === 'identifier',
+      });
     }
   }
 
-  return best && best.score >= 0.35 ? best : null;
+  if (!candidates.length) return null;
+
+  const identifierCandidates = candidates.filter((candidate) => (
+    candidate.identifier && candidate.score >= 0.35
+  ));
+
+  const pool = (identifierCandidates.length ? identifierCandidates : candidates)
+    .sort((left, right) => right.score - left.score);
+
+  const best = pool[0];
+  if (!best || best.score < MIN_KEY_SCORE) return null;
+
+  const runnerUp = pool[1];
+  if (runnerUp && best.score - runnerUp.score < MIN_KEY_MARGIN) {
+    return null;
+  }
+
+  return best;
 }
 
 function comparePairScore(a, b, rowsA, rowsB) {
@@ -79,6 +108,14 @@ function comparePairScore(a, b, rowsA, rowsB) {
 function compatibleTypes(a, b) {
   if (a === 'unknown' || b === 'unknown') return true;
   return a === b;
+}
+
+function semanticallyCompatible(a, b) {
+  const groupA = semanticGroup(a);
+  const groupB = semanticGroup(b);
+
+  if (!groupA || !groupB) return true;
+  return groupA === groupB;
 }
 
 function semanticSimilarity(a, b) {
