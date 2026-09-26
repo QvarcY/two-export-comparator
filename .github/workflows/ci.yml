@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - main
-      - ui/frontend-prototype
   pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read

@@ -126,12 +126,12 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 ## Phase 8 — Public open-source release / Publisks open-source release ⬜
 
 - ⬜ Final project name/branding review.
-- ⬜ MIT license and public repository metadata.
-- ⬜ CONTRIBUTING polish.
-- ⬜ Issue and PR templates.
+- 🟡 MIT license and repository metadata prepared; repository visibility remains a separate publication decision.
+- ✅ CONTRIBUTING polish.
+- ✅ Issue and PR templates.
 - ⬜ Good first issues.
 - ⬜ Help-wanted issues for parsers, formats and translations.
-- ⬜ First tagged release.
+- 🟡 First alpha release candidate prepared as v0.1.0-alpha.1.
 - ⬜ Public launch documentation and screenshots.
 
 ---
@@ -147,7 +147,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
 | 2026-09-26 | R5 — Real browser engine MVP | ✅ | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Regression fixtures pass (4/4) and production build verified locally. |
 | 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
+| 2026-09-26 | R7 — Alpha release preparation | 🟡 | Prepared v0.1.0-alpha.1 metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview upload and tagged prerelease remain. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** harden automatic matching/normalization without expanding the core workflow, then prepare the first public release candidate.
+**Next:** publish the Social Preview, tag `v0.1.0-alpha.1` as a prerelease, then continue matching/normalization hardening without expanding the core workflow.
