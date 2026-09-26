@@ -9,9 +9,13 @@ export default {
   'app.localOnly': 'Local only',
   'app.filesNeverLeave': 'Files never leave this browser',
 
-  'support.message': 'Useful tool?',
+  'creator.label': 'Created by',
+  'creator.aria': 'Project creator and support',
+  'creator.footerEyebrow': 'Independent project',
+  'creator.footerTitle': 'Created by Ingars Neija',
+  'support.message': 'If this tool saves you time, you can help keep it moving.',
   'support.link': 'Buy me a coffee',
-  'support.aria': 'Support this project on Buy Me a Coffee',
+  'support.aria': 'Support Ingars Neija and this project on Buy Me a Coffee',
 
   'skip.content': 'Skip to content',
 

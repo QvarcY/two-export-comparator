@@ -42,6 +42,47 @@ export function startApp(config = {}) {
     ]),
   ]);
 
+  const creatorLabel = el('span', { class: 'creator-strip__label' });
+  const creatorName = el('a', {
+    class: 'creator-strip__author',
+    href: 'https://github.com/QvarcY',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    text: 'Ingars Neija',
+  });
+  const creatorBrand = el('a', {
+    class: 'creator-strip__brand',
+    href: 'https://www.craftin.lv',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    text: 'CraftIN',
+  });
+  const creatorSupportText = el('span');
+  const creatorSupport = el('a', {
+    class: 'creator-strip__support',
+    href: 'https://buymeacoffee.com/craftin',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  }, [
+    el('span', { class: 'creator-strip__support-icon', text: '☕', 'aria-hidden': 'true' }),
+    creatorSupportText,
+  ]);
+
+  const creatorStrip = el('aside', {
+    class: 'creator-strip',
+    'aria-label': 'Creator and project support',
+  }, [
+    el('div', { class: 'creator-strip__inner' }, [
+      el('div', { class: 'creator-strip__identity' }, [
+        creatorLabel,
+        creatorName,
+        el('span', { class: 'creator-strip__separator', text: '·', 'aria-hidden': 'true' }),
+        creatorBrand,
+      ]),
+      creatorSupport,
+    ]),
+  ]);
+
   const landingView = new LandingView(store);
   const mappingView = new MappingView(store, service);
   const comparingView = new ComparingView(store);
@@ -55,7 +96,9 @@ export function startApp(config = {}) {
     resultsView.root,
   ]);
 
-  const supportText = el('span');
+  const supportEyebrow = el('span', { class: 'app-support__eyebrow' });
+  const supportTitle = el('strong', { class: 'app-support__title' });
+  const supportText = el('span', { class: 'app-support__text' });
   const supportLinkText = el('span');
   const supportLink = el('a', {
     class: 'app-support__link',
@@ -67,9 +110,30 @@ export function startApp(config = {}) {
     supportLinkText,
   ]);
 
+  const footerAuthor = el('span', { class: 'app-support__author-name', text: 'Ingars Neija' });
+  const footerAlias = el('span', { class: 'app-support__alias', text: 'QvarcY' });
+  const footerBrand = el('a', {
+    class: 'app-support__brand',
+    href: 'https://www.craftin.lv',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    text: 'CraftIN',
+  });
+
   const support = el('footer', { class: 'app-support' }, [
     el('div', { class: 'app-support__inner' }, [
-      supportText,
+      el('div', { class: 'app-support__copy' }, [
+        supportEyebrow,
+        supportTitle,
+        el('div', { class: 'app-support__author-line' }, [
+          footerAuthor,
+          el('span', { text: '·' }),
+          footerAlias,
+          el('span', { text: '·' }),
+          footerBrand,
+        ]),
+        supportText,
+      ]),
       supportLink,
     ]),
   ]);
@@ -77,6 +141,7 @@ export function startApp(config = {}) {
   replaceChildren(root, [
     SkipLink(),
     header,
+    creatorStrip,
     main,
     support,
     toastHost.root,
@@ -91,6 +156,13 @@ export function startApp(config = {}) {
     tagline.textContent = t('app.tagline');
     privacyText.textContent = t('app.localOnly');
     privacyBadge.title = t('app.filesNeverLeave');
+    creatorLabel.textContent = t('creator.label');
+    creatorSupportText.textContent = t('support.link');
+    creatorSupport.setAttribute('aria-label', t('support.aria'));
+    creatorStrip.setAttribute('aria-label', t('creator.aria'));
+
+    supportEyebrow.textContent = t('creator.footerEyebrow');
+    supportTitle.textContent = t('creator.footerTitle');
     supportText.textContent = t('support.message');
     supportLinkText.textContent = t('support.link');
     supportLink.setAttribute('aria-label', t('support.aria'));
