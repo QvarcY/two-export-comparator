@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Design Tokens — Two-Export Comparator
+   Dark-first, premium, calm. Graphite foundation, restrained accents.
+   ========================================================================== */
+
+:root {
+  /* ---------- Color: Graphite foundation ---------- */
+  --color-bg-0: #0b0d10;
+  --color-bg-1: #101317;
+  --color-bg-2: #161a20;
+  --color-bg-3: #1c2128;
+  --color-bg-4: #232a33;
+
+  --color-surface-0: rgba(255, 255, 255, 0.02);
+  --color-surface-1: rgba(255, 255, 255, 0.04);
+  --color-surface-2: rgba(255, 255, 255, 0.06);
+  --color-surface-3: rgba(255, 255, 255, 0.09);
+
+  --color-border-0: rgba(255, 255, 255, 0.06);
+  --color-border-1: rgba(255, 255, 255, 0.10);
+  --color-border-2: rgba(255, 255, 255, 0.16);
+
+  /* ---------- Text ---------- */
+  --color-text-0: #f4f6f8;
+  --color-text-1: #c8cdd4;
+  --color-text-2: #8b939e;
+  --color-text-3: #5c6470;
+
+  /* ---------- Semantic accents ---------- */
+  --color-match: #4ade80;
+  --color-mismatch: #f87171;
+  --color-only-a: #fbbf24;
+  --color-only-b: #fb923c;
+  --color-dup: #a78bfa;
+  --color-ambig: #facc15;
+  --color-info: #60a5fa;
+
+  --color-accent: #6ee7a8;
+  --color-accent-hi: #8cf0bd;
+
+  /* Soft tints for backgrounds */
+  --tint-match: rgba(74, 222, 128, 0.10);
+  --tint-mismatch: rgba(248, 113, 113, 0.10);
+  --tint-only-a: rgba(251, 191, 36, 0.10);
+  --tint-only-b: rgba(251, 146, 60, 0.10);
+  --tint-dup: rgba(167, 139, 250, 0.10);
+  --tint-ambig: rgba(250, 204, 21, 0.10);
+  --tint-info: rgba(96, 165, 250, 0.10);
+
+  /* ---------- Spacing scale (4px base) ---------- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* ---------- Radius ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ---------- Typography ---------- */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono",
+    Menlo, Consolas, monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.875rem;
+  --text-md: 0.9375rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semi: 600;
+  --weight-bold: 700;
+
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-base: 1.5;
+  --leading-loose: 1.65;
+
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+
+  /* ---------- Shadows ---------- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.45);
+  --shadow-glow-accent: 0 0 0 1px rgba(110, 231, 168, 0.25),
+    0 8px 32px rgba(110, 231, 168, 0.12);
+
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasis: cubic-bezier(0.2, 0.9, 0.1, 1.05);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 360ms;
+  --dur-slower: 600ms;
+
+  /* ---------- Layout ---------- */
+  --container-max: 1200px;
+  --container-narrow: 880px;
+  --header-height: 60px;
+
+  /* ---------- Z-index ---------- */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-drawer: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* ==========================================================================
+   Light theme (optional — scoped)
+   ========================================================================== */
+[data-theme='light'] {
+  --color-bg-0: #fafbfc;
+  --color-bg-1: #ffffff;
+  --color-bg-2: #f4f6f8;
+  --color-bg-3: #eceff3;
+  --color-bg-4: #e2e6ec;
+
+  --color-surface-0: rgba(15, 17, 21, 0.02);
+  --color-surface-1: rgba(15, 17, 21, 0.04);
+  --color-surface-2: rgba(15, 17, 21, 0.06);
+  --color-surface-3: rgba(15, 17, 21, 0.09);
+
+  --color-border-0: rgba(15, 17, 21, 0.08);
+  --color-border-1: rgba(15, 17, 21, 0.12);
+  --color-border-2: rgba(15, 17, 21, 0.20);
+
+  --color-text-0: #0f1115;
+  --color-text-1: #2d333c;
+  --color-text-2: #5c6470;
+  --color-text-3: #8b939e;
+
+  --color-accent: #10a37f;
+  --color-accent-hi: #0d8a6a;
+
+  --shadow-xs: 0 1px 2px rgba(15, 17, 21, 0.06);
+  --shadow-sm: 0 2px 6px rgba(15, 17, 21, 0.08);
+  --shadow-md: 0 8px 24px rgba(15, 17, 21, 0.10);
+  --shadow-lg: 0 20px 48px rgba(15, 17, 21, 0.14);
+}

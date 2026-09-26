@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest a focused improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Core promise: two files in → visual differences out.
+        Please explain how the proposal improves that workflow.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What comparison problem is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Why does this belong in the core?
+      description: How does it help users understand differences faster without making the normal workflow harder?
+    validations:
+      required: true
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Scope check
+      options:
+        - label: This directly helps compare two files.
+          required: true
+        - label: This can preserve local-first/privacy-first behavior.
+          required: true
+        - label: This does not require turning the project into a general spreadsheet/workspace product.
+          required: true
