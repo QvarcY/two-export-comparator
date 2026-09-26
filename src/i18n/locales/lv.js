@@ -12,10 +12,10 @@ export default {
   'creator.label': 'Autors',
   'creator.aria': 'Projekta autors un atbalsts',
   'creator.footerEyebrow': 'Neatkarīgs projekts',
-  'creator.footerTitle': 'Radījis Ingars Neija',
+  'creator.footerTitle': 'Radījis QvarcY',
   'support.message': 'Ja šis rīks ietaupa Tev laiku, vari palīdzēt tam augt tālāk.',
   'support.link': 'Uzsauc man kafiju',
-  'support.aria': 'Atbalsti Ingara Neijas darbu un šo projektu Buy Me a Coffee',
+  'support.aria': 'Atbalsti QvarcY darbu un šo projektu Buy Me a Coffee',
 
   'skip.content': 'Pāriet uz saturu',
 
