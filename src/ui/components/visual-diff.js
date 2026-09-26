@@ -51,7 +51,7 @@ export class VisualDiff {
       }, [
         el('div', {
           class: 'visual-diff__missing-label',
-          text: t('visual.onlyHere'),
+          text: t('visual.notInFile'),
         }),
       ]);
     }
@@ -104,7 +104,8 @@ export class VisualDiff {
     let label = t('visual.matched');
 
     if (record.status === 'MISMATCH') label = t('visual.changed');
-    else if (record.status === 'ONLY_A' || record.status === 'ONLY_B') label = t('visual.onlyHere');
+    else if (record.status === 'ONLY_A') label = t('visual.onlyA');
+    else if (record.status === 'ONLY_B') label = t('visual.onlyB');
     else if (record.status === 'DUPLICATE' || record.status === 'AMBIGUOUS') label = t('visual.ambiguous');
 
     return el('div', {

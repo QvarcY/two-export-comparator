@@ -192,8 +192,8 @@ Current direction:
 
 1. ✅ project architecture and frontend foundation
 2. ✅ Visual Diff as the primary UX
-3. 🟡 real local CSV/TSV engine
-4. ⬜ harden matching and normalization
+3. ✅ real local CSV/TSV engine MVP
+4. 🟡 harden matching and normalization
 5. ⬜ export/privacy/security review
 6. ⬜ accessibility, performance and regression quality gate
 7. ⬜ static/offline distribution

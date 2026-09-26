@@ -192,8 +192,8 @@ Pašreizējais virziens:
 
 1. ✅ projekta arhitektūra un frontend pamats
 2. ✅ Visual Diff kā galvenais UX
-3. 🟡 īsts lokāls CSV/TSV dzinējs
-4. ⬜ sasaistīšanas un normalizācijas nostiprināšana
+3. ✅ īsta lokāla CSV/TSV dzinēja MVP versija
+4. 🟡 sasaistīšanas un normalizācijas nostiprināšana
 5. ⬜ eksporta, privātuma un drošības audits
 6. ⬜ pieejamības, veiktspējas un regression kvalitātes vārti
 7. ⬜ statiska/offline izplatīšana

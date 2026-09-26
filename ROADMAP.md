@@ -41,7 +41,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Package metadata aligned with the Vite 7 lockfile baseline.
 - ✅ Repository line-ending policy added.
 - ✅ Clean production build verified locally with Vite 7.3.6.
-- 🟡 Source-generated parser warnings will move to code-based localization in Phase 2.
+- ⬜ Source-generated parser warnings still need code-based localization.
 
 **Exit criteria:** complete bilingual UI, clean build, no duplicate IDs, package metadata consistent, no known frontend blocker.
 
@@ -60,51 +60,51 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 
 **Exit criteria:** real CSV/TSV files can be inspected locally without upload and parser fixtures prove edge-case behavior.
 
-## Phase 3 — Mapping and normalization / Kolonnu savienošana un normalizācija ⬜
+## Phase 3 — Mapping and normalization / Kolonnu savienošana un normalizācija 🟡
 
-- ⬜ Exact text keys.
-- ⬜ Composite keys.
-- ⬜ Trim / case / repeated-whitespace normalization.
-- ⬜ Explicit numeric parsing for dot/comma decimals.
+- ✅ Exact text keys.
+- ✅ Composite keys are supported by the mapping/indexing model.
+- ✅ Trim / case / repeated-whitespace normalization.
+- ✅ Explicit numeric parsing for dot/comma decimals.
 - ⬜ Conservative date handling.
 - ⬜ User-selected ambiguous date format.
-- ⬜ Numeric tolerance: absolute and percentage.
-- ⬜ Deterministic column mapping suggestions without AI.
-- ⬜ Mapping validation and readable error states.
+- ✅ Numeric tolerance: absolute and percentage.
+- ✅ Deterministic column mapping suggestions without AI.
+- 🟡 Basic mapping validation exists; error UX still needs hardening.
 
 **Exit criteria:** mappings are explicit, auditable and never silently guess ambiguous formats.
 
-## Phase 4 — Comparison engine / Salīdzināšanas dzinējs ⬜
+## Phase 4 — Comparison engine / Salīdzināšanas dzinējs 🟡
 
-- ⬜ Hash-map indexing; avoid O(n²) pair scans.
-- ⬜ MATCHED.
-- ⬜ ONLY_A.
-- ⬜ ONLY_B.
-- ⬜ MISMATCH.
-- ⬜ DUPLICATE.
-- ⬜ AMBIGUOUS.
-- ⬜ Source row traceability.
-- ⬜ Deterministic pairing rules.
-- ⬜ No silent first-match behavior for duplicate/ambiguous records.
+- ✅ Hash-map indexing; avoids O(n²) pair scans.
+- ✅ MATCHED.
+- ✅ ONLY_A.
+- ✅ ONLY_B.
+- ✅ MISMATCH.
+- ✅ DUPLICATE.
+- ✅ AMBIGUOUS.
+- ✅ Source row traceability.
+- ✅ Deterministic pairing rules for unique keys.
+- ✅ Duplicate/ambiguous keys are surfaced instead of silently accepted as matches.
 - ⬜ Large-file performance tests.
 
 **Exit criteria:** removing or breaking any comparison rule causes the relevant regression fixture to fail.
 
-## Phase 5 — Export, privacy and security hardening / Eksports, privātums un drošība ⬜
+## Phase 5 — Export, privacy and security hardening / Eksports, privātums un drošība 🟡
 
-- ⬜ Result CSV export.
+- ✅ Result CSV export.
 - ⬜ Filtered exports.
-- ⬜ CSV formula-injection protection.
+- ✅ CSV formula-injection protection.
 - ⬜ CSP suitable for static deployment, including connect-src 'none' where deployment permits it.
-- ⬜ No analytics, telemetry or external data APIs.
-- ⬜ No business-file content in localStorage, IndexedDB or cookies.
+- ✅ No analytics, telemetry or external data APIs in the comparison flow.
+- ✅ No business-file content stored in localStorage, IndexedDB or cookies.
 - ⬜ Security review of imported values and generated downloads.
 - ⬜ Privacy explanation verified against actual behavior.
 
-## Phase 6 — Quality gate / Kvalitātes vārti ⬜
+## Phase 6 — Quality gate / Kvalitātes vārti 🟡
 
-- ⬜ Unit tests.
-- ⬜ Behavior-driven fixture tests.
+- ✅ Node test coverage for parser and browser comparison service.
+- ✅ Synthetic behavior fixtures for real comparison outcomes.
 - ⬜ Integration tests.
 - ⬜ Regression tests that fail on the pre-fix behavior.
 - ⬜ Accessibility audit: keyboard, labels, focus, screen reader semantics.
@@ -145,7 +145,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
 | 2026-09-26 | R3 — Live i18n + frontend cleanup | ✅ | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified mapping and fixed mock slot replacement/error recovery. |
 | 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
-| 2026-09-26 | R5 — Real browser engine MVP | ✅ | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Regression fixtures pass (4/4) and production build verified locally. |\n| 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
+| 2026-09-26 | R5 — Real browser engine MVP | ✅ | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Regression fixtures pass (4/4) and production build verified locally. |
+| 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
 
 ## Next target / Nākamais mērķis
 
