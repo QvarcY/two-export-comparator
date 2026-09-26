@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { parseFlexibleNumber } from '../src/engine/delimited-parser.js';
 import {
   compareValues,
+  normalizeDate,
   normalizeKeyForSide,
   normalizeText,
 } from '../src/engine/normalization.js';
@@ -51,4 +52,45 @@ test('applies percentage tolerance deterministically', () => {
 
   assert.equal(inside.equal, true);
   assert.equal(outside.equal, false);
+});
+
+test('normalizes ISO and unambiguous local dates conservatively', () => {
+  assert.equal(normalizeDate('2026-09-26'), '2026-09-26');
+  assert.equal(normalizeDate('26/09/2026'), '2026-09-26');
+  assert.equal(normalizeDate('09/26/2026'), '2026-09-26');
+});
+
+test('does not guess ambiguous local dates in auto mode', () => {
+  assert.equal(normalizeDate('02/03/2026'), null);
+  assert.equal(normalizeDate('03/02/2026'), null);
+});
+
+test('uses explicit date formats only when the expert selected them', () => {
+  const dmy = compareValues('02/03/2026', '2026-03-02', {
+    type: 'date',
+  }, {
+    dateFormatA: 'dmy',
+    dateFormatB: 'iso',
+  });
+
+  const mdy = compareValues('02/03/2026', '2026-02-03', {
+    type: 'date',
+  }, {
+    dateFormatA: 'mdy',
+    dateFormatB: 'iso',
+  });
+
+  assert.equal(dmy.equal, true);
+  assert.equal(mdy.equal, true);
+});
+
+test('falls back to exact normalized text when an ambiguous date format is not selected', () => {
+  const result = compareValues('02/03/2026', '03/02/2026', {
+    type: 'date',
+  }, {
+    dateFormatA: null,
+    dateFormatB: null,
+  });
+
+  assert.equal(result.equal, false);
 });

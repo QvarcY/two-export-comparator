@@ -59,6 +59,8 @@ export default {
   'mapping.trim': 'Ignorēt atstarpes sākumā un beigās',
   'mapping.ignoreCase': 'Nešķirot lielos un mazos burtus',
   'mapping.collapseWhitespace': 'Vairākas atstarpes uzskatīt par vienu',
+  'mapping.dateFormatFile': 'Datuma formāts — Fails {slot}',
+  'mapping.dateFormat.auto': 'Automātiski (neskaidrus datumus neminēt)',
   'mapping.startOver': 'Sākt no jauna',
   'mapping.compareFiles': 'Salīdzināt failus',
   'mapping.fileAColumn': 'Faila A kolonna',

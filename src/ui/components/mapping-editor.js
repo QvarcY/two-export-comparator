@@ -42,16 +42,21 @@ export class MappingEditor {
       try {
         const suggestions = await this.service.suggestMappings(this.store.fileA, this.store.fileB);
         if (suggestions?.length) {
-          this.mapping.keys = suggestions
-            .filter((_, index) => index === 0)
-            .map((suggestion) => ({
-              columnA: suggestion.columnA,
-              columnB: suggestion.columnB,
-              type: 'text',
-            }));
+          const keySuggestion = suggestions.find((suggestion) => suggestion.role === 'key')
+            ?? suggestions[0];
+
+          this.mapping.keys = keySuggestion
+            ? [{
+                columnA: keySuggestion.columnA,
+                columnB: keySuggestion.columnB,
+                type: 'text',
+              }]
+            : [];
 
           this.mapping.comparisons = suggestions
-            .slice(1)
+            .filter((suggestion) => (
+              suggestion !== keySuggestion && suggestion.role !== 'key'
+            ))
             .map((suggestion) => ({
               columnA: suggestion.columnA,
               columnB: suggestion.columnB,
@@ -251,8 +256,41 @@ export class MappingEditor {
         toggle(t('mapping.trim'), 'trimText'),
         toggle(t('mapping.ignoreCase'), 'caseInsensitive'),
         toggle(t('mapping.collapseWhitespace'), 'collapseWhitespace'),
+        this._renderDateFormat('A', 'dateFormatA'),
+        this._renderDateFormat('B', 'dateFormatB'),
       ]),
     ]);
+  }
+
+  _renderDateFormat(slot, key) {
+    const normalization = this.mapping.normalization;
+    const select = el('select', {
+      class: 'select select--sm',
+      'aria-label': t('mapping.dateFormatFile', { slot }),
+      onchange: (event) => {
+        normalization[key] = event.target.value || null;
+        this._emitNormalization();
+      },
+    }, [
+      this._dateOption('', t('mapping.dateFormat.auto'), !normalization[key]),
+      this._dateOption('iso', 'YYYY-MM-DD', normalization[key] === 'iso'),
+      this._dateOption('dmy', 'DD/MM/YYYY', normalization[key] === 'dmy'),
+      this._dateOption('mdy', 'MM/DD/YYYY', normalization[key] === 'mdy'),
+    ]);
+
+    return el('label', { class: 'mapping-workspace__date-format' }, [
+      el('span', {
+        class: 'mapping-workspace__date-format-label',
+        text: t('mapping.dateFormatFile', { slot }),
+      }),
+      select,
+    ]);
+  }
+
+  _dateOption(value, label, selected) {
+    const option = el('option', { value, text: label });
+    if (selected) option.selected = true;
+    return option;
   }
 
   _renderActions() {

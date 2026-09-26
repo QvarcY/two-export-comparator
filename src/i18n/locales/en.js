@@ -59,6 +59,8 @@ export default {
   'mapping.trim': 'Ignore spaces at the beginning and end',
   'mapping.ignoreCase': 'Ignore upper/lower case',
   'mapping.collapseWhitespace': 'Treat repeated spaces as one',
+  'mapping.dateFormatFile': 'Date format — File {slot}',
+  'mapping.dateFormat.auto': 'Auto (do not guess ambiguous dates)',
   'mapping.startOver': 'Start over',
   'mapping.compareFiles': 'Compare files',
   'mapping.fileAColumn': 'File A column',
