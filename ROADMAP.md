@@ -141,7 +141,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R0 — Scaffold | ✅ | Vite project, service boundary, initial repository baseline. |
 | 2026-09-26 | R1 — Frontend prototype | ✅ | File panels, mapping UI, progress view, result dashboard and drawer added. |
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
-| 2026-09-26 | R3 — Live i18n + frontend cleanup | 🟡 | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, fixed mock slot replacement and comparison error recovery. Build verification pending. |
+| 2026-09-26 | R3 — Live i18n + frontend cleanup | 🟡 | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified the mapping UX, hardened select value rendering, fixed mock slot replacement and comparison error recovery. Build verification pending. |
 
 ## Next target / Nākamais mērķis
 

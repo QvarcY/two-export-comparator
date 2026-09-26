@@ -89,10 +89,10 @@ export class MappingRow {
 
     for (const column of columns) {
       const option = el('option', { value: column.id, text: column.label });
-      if (column.id === value) option.selected = true;
       select.appendChild(option);
     }
 
+    select.value = value ?? '';
     return select;
   }
 

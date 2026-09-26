@@ -74,7 +74,6 @@ export class MockComparisonService extends ComparisonService {
       ['Reference', 'Payment Ref'],
       ['Amount', 'Total'],
       ['Date', 'Paid Date'],
-      ['Description', 'Customer'],
     ];
 
     for (const [a, b] of pairs) {
