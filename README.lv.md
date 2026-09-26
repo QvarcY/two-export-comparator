@@ -7,7 +7,7 @@
 > **Divi faili iekšā. Atšķirības ārā.**  
 > Privātumam draudzīgs pārlūka rīks, kas lokāli salīdzina divus CSV/TSV eksportus un vizuāli parāda atšķirības blakus.
 
-**Statuss:** `v0.1.0-alpha.2` kandidāts — pirms publiskā laidiena / aktīvā izstrādē
+**Statuss:** jaunākais pirmslaidiens: `v0.1.0-alpha.2` — aktīvā izstrādē
 
 ## Kāpēc šis projekts pastāv
 
@@ -193,10 +193,10 @@ Pašreizējais virziens:
 1. ✅ projekta arhitektūra un frontend pamats
 2. ✅ Visual Diff kā galvenais UX
 3. ✅ īsta lokāla CSV/TSV dzinēja MVP versija
-4. 🟡 sasaistīšanas un normalizācijas nostiprināšana
-5. ⬜ eksporta, privātuma un drošības audits
-6. ⬜ pieejamības, veiktspējas un regression kvalitātes vārti
-7. ⬜ statiska/offline izplatīšana
+4. ✅ sasaistīšanas un normalizācijas nostiprināšana
+5. 🟡 eksporta, privātuma un drošības audits
+6. 🟡 pieejamības, veiktspējas un regression kvalitātes vārti
+7. 🟡 statiskās izplatīšanas nostiprināšana
 8. ⬜ publisks laidiens
 
 Pēc katras nozīmīgas izstrādes kārtas tiek atjaunināts `ROADMAP.md`.

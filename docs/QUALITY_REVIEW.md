@@ -28,7 +28,7 @@ The current test suite protects:
 
 The following should not be claimed as complete until reviewed in the final hosting environment:
 
-- Content Security Policy headers;
+- hosting-level Content Security Policy headers (the static build already embeds a restrictive meta CSP);
 - keyboard-only walkthrough of every primary action;
 - screen-reader walkthrough;
 - color-contrast audit;

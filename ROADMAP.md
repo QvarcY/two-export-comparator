@@ -76,7 +76,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 
 **Exit criteria:** mappings are explicit, auditable and never silently guess ambiguous formats.
 
-## Phase 4 — Comparison engine / Salīdzināšanas dzinējs 🟡
+## Phase 4 — Comparison engine / Salīdzināšanas dzinējs ✅
 
 - ✅ Hash-map indexing; avoids O(n²) pair scans.
 - ✅ MATCHED.
@@ -135,7 +135,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Issue and PR templates.
 - ⬜ Good first issues.
 - ⬜ Help-wanted issues for parsers, formats and translations.
-- 🟡 First alpha release candidate prepared as v0.1.0-alpha.1.
+- ✅ Prereleases `v0.1.0-alpha.1` and `v0.1.0-alpha.2` published.
 - ⬜ Public launch documentation and screenshots.
 
 ---
@@ -154,8 +154,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R7 — Alpha release preparation | ✅ | Prepared and published v0.1.0-alpha.1 prerelease metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview remains deferred until repository publication. |
 | 2026-09-26 | R8 — Automatic matching hardening | ✅ | Added explicit mapping roles, conservative key ambiguity rejection, semantic conflict guards and broader parser/normalization/export regression coverage without changing the primary workflow. |
 | 2026-09-26 | R9 — Alpha quality gate | ✅ | Added conservative date normalization with optional Expert Mode date formats, EN/LV key parity, privacy/security source invariants and a 10k-row CI performance baseline. |
-| 2026-09-26 | R10 — Accessibility + static hardening | 🟡 | Added modal focus trapping/restore, real table action buttons, polite progress announcements, production CSP/static-dist verification and CI dependency auditing. Manual device/screen-reader review and alpha.2 publication remain. |
+| 2026-09-26 | R10 — Accessibility + static hardening | ✅ | Added modal focus trapping/restore, real table action buttons, polite progress announcements, production CSP/static-dist verification and CI dependency auditing. `v0.1.0-alpha.2` was published successfully. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** verify alpha.2 locally, publish `v0.1.0-alpha.2`, then perform the final manual keyboard/responsive/screen-reader walkthrough before repository publication. Core comparison scope remains frozen.
+**Next:** complete the manual publication checklist, switch repository visibility only when explicitly approved, upload Social Preview, and perform the final public-page smoke check. Core comparison scope remains frozen.
