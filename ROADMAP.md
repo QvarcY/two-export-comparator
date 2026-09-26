@@ -66,8 +66,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Composite keys are supported by the mapping/indexing model.
 - ✅ Trim / case / repeated-whitespace normalization.
 - ✅ Explicit numeric parsing for dot/comma decimals.
-- ⬜ Conservative date handling.
-- ⬜ User-selected ambiguous date format.
+- ✅ Conservative date handling: ISO and unambiguous local dates normalize automatically; ambiguous local dates are never guessed.
+- ✅ Expert settings can explicitly select ISO, DD/MM/YYYY or MM/DD/YYYY per file when needed.
 - ✅ Numeric tolerance: absolute and percentage.
 - ✅ Deterministic column mapping suggestions without AI.
 - ✅ Conservative key-confidence margin prevents silent auto-selection when multiple identifier keys are equally plausible.
@@ -88,7 +88,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Source row traceability.
 - ✅ Deterministic pairing rules for unique keys.
 - ✅ Duplicate/ambiguous keys are surfaced instead of silently accepted as matches.
-- ⬜ Large-file performance tests.
+- ✅ 10k-row end-to-end parse/comparison regression baseline with a broad non-quadratic guard.
 
 **Exit criteria:** removing or breaking any comparison rule causes the relevant regression fixture to fail.
 
@@ -100,8 +100,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ⬜ CSP suitable for static deployment, including connect-src 'none' where deployment permits it.
 - ✅ No analytics, telemetry or external data APIs in the comparison flow.
 - ✅ No business-file content stored in localStorage, IndexedDB or cookies.
-- ⬜ Security review of imported values and generated downloads.
-- ⬜ Privacy explanation verified against actual behavior.
+- 🟡 Automated source invariants now reject network/storage APIs and unsafe HTML/code execution; deployment CSP/download review remains.
+- ✅ Privacy claims are protected by automated source invariants for network and persistent browser storage APIs.
 
 ## Phase 6 — Quality gate / Kvalitātes vārti 🟡
 
@@ -113,9 +113,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ⬜ Regression tests that fail on the pre-fix behavior.
 - ⬜ Accessibility audit: keyboard, labels, focus, screen reader semantics.
 - ⬜ Responsive review.
-- ⬜ EN/LV translation completeness check.
+- ✅ EN/LV translation key parity test.
 - ⬜ Contributor translation validation.
-- ⬜ Performance baseline for large files.
+- ✅ 10k-row parse + compare baseline runs in CI.
 - ⬜ Dependency audit.
 
 ## Phase 7 — Distribution / Izplatīšana ⬜
@@ -153,7 +153,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
 | 2026-09-26 | R7 — Alpha release preparation | ✅ | Prepared and published v0.1.0-alpha.1 prerelease metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview remains deferred until repository publication. |
 | 2026-09-26 | R8 — Automatic matching hardening | ✅ | Added explicit mapping roles, conservative key ambiguity rejection, semantic conflict guards and broader parser/normalization/export regression coverage without changing the primary workflow. |
+| 2026-09-26 | R9 — Alpha quality gate | ✅ | Added conservative date normalization with optional Expert Mode date formats, EN/LV key parity, privacy/security source invariants and a 10k-row CI performance baseline. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** conservative date-format handling, accessibility/security review and measured large-file behavior — without expanding the core workflow.
+**Next:** manual accessibility/responsive review and deployment CSP/static distribution work. Core comparison scope remains frozen.
