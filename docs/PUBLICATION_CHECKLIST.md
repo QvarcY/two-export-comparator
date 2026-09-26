@@ -37,17 +37,17 @@ Perform with synthetic fixture data only.
 
 Check at approximately:
 
-- [ ] 375 px width.
-- [ ] 768 px width.
-- [ ] 1280 px or wider.
+- [x] 375 px width.
+- [x] 768 px width.
+- [x] 1280 px or wider.
 
 Verify:
 
-- [ ] no horizontal page overflow;
-- [ ] file cards remain readable;
-- [ ] Visual Diff stacks cleanly on narrow screens;
-- [ ] buttons remain reachable;
-- [ ] long filenames/values do not break layout.
+- [x] no horizontal page overflow;
+- [x] file cards remain readable;
+- [x] Visual Diff stacks cleanly on narrow screens;
+- [x] buttons remain reachable;
+- [x] long filenames/values do not break layout.
 
 ### Accessibility / visual
 
@@ -66,16 +66,19 @@ Verify:
 
 ## Publication action
 
-Do **not** change visibility until the manual checklist above is acceptable.
+Public alpha publication completed on 2026-09-26.
 
-When ready:
+- [x] Repository visibility changed from Private to Public.
+- [x] Prepared 1280×640 Social Preview uploaded by the repository owner.
+- [x] Public repository metadata checked.
+- [x] README and hero asset checked.
+- [x] Releases checked; latest remains marked prerelease/alpha.
+- [x] MIT license checked.
+- [x] Topics checked.
+- [x] Bug, feature and pull-request templates checked.
+- [x] Latest main CI checked green.
 
-1. Change repository visibility from Private to Public.
-2. Upload the prepared 1280×640 Social Preview image.
-3. Re-open the public repository in a logged-out/private browser window.
-4. Verify README images, release links, license, topics and issue templates.
-5. Confirm no confidential sample data or screenshots are present.
-6. Confirm the public release still says prerelease/alpha.
+The remaining manual-only items are screen-reader/contrast checks and any browser-specific download verification not yet exercised.
 
 ## Scope reminder
 

@@ -112,7 +112,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ⬜ Integration tests.
 - ⬜ Regression tests that fail on the pre-fix behavior.
 - 🟡 Code-level accessibility pass completed for keyboard controls, progress announcements and modal focus management; manual screen-reader/contrast walkthrough remains.
-- ⬜ Responsive review.
+- ✅ Responsive review completed across desktop and narrow/mobile layouts.
 - ✅ EN/LV translation key parity test.
 - ⬜ Contributor translation validation.
 - ✅ 10k-row parse + compare baseline runs in CI.
@@ -130,7 +130,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 ## Phase 8 — Public open-source release / Publisks open-source release ⬜
 
 - ⬜ Final project name/branding review.
-- 🟡 MIT license and repository metadata prepared; repository visibility remains a separate publication decision.
+- ✅ MIT license and repository metadata prepared; repository is public.
 - ✅ CONTRIBUTING polish.
 - ✅ Issue and PR templates.
 - ⬜ Good first issues.
@@ -157,7 +157,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R10 — Accessibility + static hardening | ✅ | Added modal focus trapping/restore, real table action buttons, polite progress announcements, production CSP/static-dist verification and CI dependency auditing. `v0.1.0-alpha.2` was published successfully. |
 | 2026-09-26 | R11 — Support link polish | ✅ | Added a bilingual Buy Me a Coffee support link without changing the core workflow. |
 | 2026-09-26 | R12 — Author + support branding | ✅ | Made QvarcY authorship explicit across the app and README, added GitHub attribution plus visible Buy Me a Coffee support CTAs, and kept the comparison workflow unchanged. |
+| 2026-09-26 | R13 — Public alpha launch | ✅ | Repository visibility switched to public, Social Preview uploaded by the repository owner, public metadata/releases/templates were smoke-checked, and the latest main CI remained green. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** complete the manual publication checklist, switch repository visibility only when explicitly approved, upload Social Preview, and perform the final public-page smoke check. Core comparison scope remains frozen.
+**Next:** collect real-world feedback on the public alpha and fix only concrete comparison, accessibility, security or usability issues. Core comparison scope remains frozen.
