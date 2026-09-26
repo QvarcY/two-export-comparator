@@ -150,7 +150,7 @@ export class MockComparisonService extends ComparisonService {
         displayA: { Date: '2026-09-18', Amount: '125.00' },
         displayB: { 'Paid Date': '2026-09-18', Total: '152.00' },
         differences: [
-          { field: 'amount', valueA: 125.0, valueB: 152.0, delta: 27.0 },
+          { field: 'amount', fieldA: 'Amount', fieldB: 'Total', valueA: 125.0, valueB: 152.0, delta: 27.0 },
         ],
       },
       {

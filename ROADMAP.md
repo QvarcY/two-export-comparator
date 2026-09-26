@@ -20,7 +20,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 
 - ✅ Modern dark-first UI prototype.
 - ✅ File A / File B panels.
-- ✅ Mapping workspace.
+- ✅ Mapping workspace retained as Expert Mode.
+- ✅ Automatic compare path after two files are selected.
+- ✅ Side-by-side Visual Diff becomes the primary result experience.
 - ✅ Compare progress screen.
 - ✅ Results cards, table and record drawer.
 - ✅ Safe DOM renderer using textContent for imported values.
@@ -141,8 +143,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R0 — Scaffold | ✅ | Vite project, service boundary, initial repository baseline. |
 | 2026-09-26 | R1 — Frontend prototype | ✅ | File panels, mapping UI, progress view, result dashboard and drawer added. |
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
-| 2026-09-26 | R3 — Live i18n + frontend cleanup | 🟡 | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified the mapping UX, hardened select value rendering, fixed mock slot replacement and comparison error recovery. Build verification pending. |
+| 2026-09-26 | R3 — Live i18n + frontend cleanup | ✅ | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified mapping and fixed mock slot replacement/error recovery. |
+| 2026-09-26 | R4 — Visual Diff pivot | 🟡 | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. Build and UX verification pending. |
 
 ## Next target / Nākamais mērķis
 
-**R3 exit check:** run a clean production build and switch EN ↔ LV while files are already selected and while the mapping screen is open. After that, start Phase 2 with the real CSV/TSV inspector.
+**R4 exit check:** pull the Visual Diff prototype, verify that two selected files lead directly to the visual result, confirm red difference highlighting and neutral matches, then continue with the real CSV/TSV inspector.

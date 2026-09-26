@@ -48,17 +48,13 @@ This architecture reduces unnecessary data transfer, but the project does **not*
 ~~~text
 DROP FILE A + FILE B
         ↓
-INSPECT / PREVIEW
+AUTOMATIC LOCAL ANALYSIS
         ↓
-MAP COLUMNS
+SIDE-BY-SIDE VISUAL DIFF
         ↓
-CONFIGURE NORMALIZATION
+RED = DIFFERENCE / NEUTRAL = MATCH
         ↓
-COMPARE LOCALLY
-        ↓
-MATCHED / ONLY A / ONLY B / MISMATCH / DUPLICATE / AMBIGUOUS
-        ↓
-INSPECT DETAILS
+OPTIONAL EXPERT SETTINGS
         ↓
 EXPORT REPORT
 ~~~

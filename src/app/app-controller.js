@@ -25,6 +25,7 @@ export class AppController {
       this.handleExport(event.detail);
     });
     window.addEventListener(AppEvents.RESET_REQUESTED, () => this.handleReset());
+    window.addEventListener(AppEvents.EXPERT_MAPPING_REQUESTED, () => this.handleExpertMapping());
   }
 
   async handleFileSelected(slot, file) {
@@ -42,7 +43,10 @@ export class AppController {
         [loadingKey]: false,
       });
 
-      this._recomputeState();
+      const ready = this._recomputeState();
+      if (ready) {
+        await this.handleAutoCompare();
+      }
     } catch (error) {
       this.store.patch({ [loadingKey]: false });
 
@@ -153,6 +157,66 @@ export class AppController {
     }
   }
 
+  async handleAutoCompare() {
+    const { fileA, fileB } = this.store;
+    if (!fileA || !fileB) return;
+
+    try {
+      const suggestions = await this.service.suggestMappings(fileA, fileB);
+
+      if (!suggestions?.length) {
+        this.store.patch({ mapping: null, mappingValid: false });
+        this.store.setState('MAPPING');
+        return;
+      }
+
+      const [keySuggestion, ...comparisonSuggestions] = suggestions;
+      const mapping = {
+        keys: [{
+          columnA: keySuggestion.columnA,
+          columnB: keySuggestion.columnB,
+          type: 'text',
+        }],
+        comparisons: comparisonSuggestions.map((suggestion) => ({
+          columnA: suggestion.columnA,
+          columnB: suggestion.columnB,
+          type: this._guessMappingType(fileA, fileB, suggestion.columnA, suggestion.columnB),
+          tolerance: { mode: 'absolute', value: 0.01 },
+        })),
+        displayOnly: { fileA: [], fileB: [] },
+        normalization: {
+          trimText: true,
+          caseInsensitive: true,
+          collapseWhitespace: true,
+          numberLocale: 'auto',
+          dateFormatA: null,
+          dateFormatB: null,
+        },
+      };
+
+      this.store.patch({ mapping, mappingValid: true });
+      await this.handleCompare(mapping);
+    } catch (error) {
+      this.store.patch({ mapping: null, mappingValid: false });
+      this.store.setState('MAPPING');
+      console.error('[AppController] automatic comparison setup failed:', error);
+    }
+  }
+
+  _guessMappingType(fileA, fileB, columnA, columnB) {
+    const typeA = fileA.columns.find((column) => column.id === columnA)?.inferredType;
+    const typeB = fileB.columns.find((column) => column.id === columnB)?.inferredType;
+
+    if (typeA === 'number' || typeB === 'number') return 'number';
+    if (typeA === 'date' || typeB === 'date') return 'date';
+    return 'text';
+  }
+
+  handleExpertMapping() {
+    if (!this.store.fileA || !this.store.fileB) return;
+    this.store.setState(this.store.mappingValid ? 'READY_TO_COMPARE' : 'MAPPING');
+  }
+
   handleReset() {
     this.service.reset();
 
@@ -177,10 +241,15 @@ export class AppController {
 
     if (!fileA && !fileB) {
       this.store.setState('EMPTY');
-    } else if (fileA && fileB) {
-      this.store.setState('MAPPING');
-    } else {
-      this.store.setState('FILES_PARTIAL');
+      return false;
     }
+
+    if (fileA && fileB) {
+      this.store.setState('FILES_READY');
+      return true;
+    }
+
+    this.store.setState('FILES_PARTIAL');
+    return false;
   }
 }
