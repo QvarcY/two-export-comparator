@@ -45,18 +45,18 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 
 **Exit criteria:** complete bilingual UI, clean build, no duplicate IDs, package metadata consistent, no known frontend blocker.
 
-## Phase 2 — Real file inspection and parsing / Īsta failu pārbaude un parsēšana ⬜
+## Phase 2 — Real file inspection and parsing / Īsta failu pārbaude un parsēšana 🟡
 
-- ⬜ Replace mock file inspection in BrowserComparisonService.
-- ⬜ CSV parser with quoted fields and multiline quoted values.
-- ⬜ TSV support.
-- ⬜ Comma / semicolon / tab delimiter detection.
-- ⬜ UTF-8 and UTF-8 BOM handling.
-- ⬜ Clear unsupported-encoding error.
-- ⬜ Header discovery and safe preview.
-- ⬜ Row and column metadata.
-- ⬜ File-size and malformed-input safeguards.
-- ⬜ Parser fixtures for real edge cases.
+- ✅ Replace mock file inspection in BrowserComparisonService.
+- ✅ CSV parser with quoted fields and multiline quoted values.
+- ✅ TSV support.
+- ✅ Comma / semicolon / tab delimiter detection.
+- ✅ UTF-8 and UTF-8 BOM handling.
+- ✅ Detect replacement characters and fail instead of silently showing corrupted UTF-8.
+- ✅ Header discovery and safe preview.
+- ✅ Row and column metadata with basic type inference.
+- ✅ 50 MiB file-size guard and malformed quoted-field error.
+- ✅ Parser fixtures for BOM, delimiter detection, quoted commas and multiline values.
 
 **Exit criteria:** real CSV/TSV files can be inspected locally without upload and parser fixtures prove edge-case behavior.
 
@@ -144,8 +144,9 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R1 — Frontend prototype | ✅ | File panels, mapping UI, progress view, result dashboard and drawer added. |
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
 | 2026-09-26 | R3 — Live i18n + frontend cleanup | ✅ | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified mapping and fixed mock slot replacement/error recovery. |
-| 2026-09-26 | R4 — Visual Diff pivot | 🟡 | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. Build and UX verification pending. |
+| 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
+| 2026-09-26 | R5 — Real browser engine MVP | 🟡 | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Added regression fixtures/tests. Local build/test verification pending. |
 
 ## Next target / Nākamais mērķis
 
-**R4 exit check:** pull the Visual Diff prototype, verify that two selected files lead directly to the visual result, confirm red difference highlighting and neutral matches, then continue with the real CSV/TSV inspector.
+**R5 exit check:** run npm test and npm run build, then load the supplied File A/File B fixtures and verify that the Visual Diff is produced from their real contents rather than mock data.

@@ -5,7 +5,7 @@ import './styles/components.css';
 
 import { AppStore } from './app/app-store.js';
 import { AppController } from './app/app-controller.js';
-import { MockComparisonService } from './services/mock-comparison-service.js';
+import { BrowserComparisonService } from './services/browser-comparison-service.js';
 import { LandingView } from './ui/views/landing-view.js';
 import { MappingView } from './ui/views/mapping-view.js';
 import { ComparingView } from './ui/views/comparing-view.js';
@@ -17,7 +17,7 @@ import { el, replaceChildren } from './ui/renderers/dom.js';
 import { LOCALE_CHANGE_EVENT, t } from './i18n/index.js';
 
 export function startApp(config = {}) {
-  const service = config.comparisonService ?? new MockComparisonService();
+  const service = config.comparisonService ?? new BrowserComparisonService();
   const store = new AppStore();
   const controller = new AppController(store, service);
   const root = document.getElementById('app');

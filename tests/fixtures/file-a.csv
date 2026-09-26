@@ -1,0 +1,13 @@
+Reference,Date,Amount,Description
+INV-1001,2026-09-15,125.00,Consulting
+INV-1002,2026-09-18,125.00,Design
+INV-1003,2026-09-20,89.50,Hosting
+INV-1005,2026-09-21,50.00,Duplicate A1
+INV-1005,2026-09-21,50.00,Duplicate A2
+INV-1006,2026-09-22,75.00,Ambiguous A1
+INV-1006,2026-09-22,75.00,Ambiguous A2
+ inv-1007 ,2026-09-23,199.99,Whitespace
+INV-1008,2026-09-24,49.90,Date mismatch
+INV-1009,2026-09-25,300.00,Exact match
+INV-1010,2026-09-25,100.00,Tolerance
+INV-1011,2026-09-25,100.00,Outside tolerance
