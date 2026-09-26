@@ -155,7 +155,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R8 — Automatic matching hardening | ✅ | Added explicit mapping roles, conservative key ambiguity rejection, semantic conflict guards and broader parser/normalization/export regression coverage without changing the primary workflow. |
 | 2026-09-26 | R9 — Alpha quality gate | ✅ | Added conservative date normalization with optional Expert Mode date formats, EN/LV key parity, privacy/security source invariants and a 10k-row CI performance baseline. |
 | 2026-09-26 | R10 — Accessibility + static hardening | ✅ | Added modal focus trapping/restore, real table action buttons, polite progress announcements, production CSP/static-dist verification and CI dependency auditing. `v0.1.0-alpha.2` was published successfully. |
-| 2026-09-26 | R11 — Support link polish | ✅ | Added a small bilingual Buy Me a Coffee support link in the global footer without changing the core workflow. |
+| 2026-09-26 | R11 — Support link polish | ✅ | Added a bilingual Buy Me a Coffee support link without changing the core workflow. |
+| 2026-09-26 | R12 — Author + support branding | ✅ | Made authorship explicit across the app and README, added a prominent creator/support strip near the top, and strengthened the footer support CTA while keeping the comparison workflow unchanged. |
 
 ## Next target / Nākamais mērķis
 

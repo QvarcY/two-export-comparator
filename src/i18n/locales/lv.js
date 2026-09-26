@@ -9,9 +9,13 @@ export default {
   'app.localOnly': 'Tikai lokāli',
   'app.filesNeverLeave': 'Faili nekad neatstāj šo pārlūku',
 
-  'support.message': 'Rīks noder?',
+  'creator.label': 'Autors',
+  'creator.aria': 'Projekta autors un atbalsts',
+  'creator.footerEyebrow': 'Neatkarīgs projekts',
+  'creator.footerTitle': 'Radījis Ingars Neija',
+  'support.message': 'Ja šis rīks ietaupa Tev laiku, vari palīdzēt tam augt tālāk.',
   'support.link': 'Uzsauc man kafiju',
-  'support.aria': 'Atbalsti šo projektu Buy Me a Coffee',
+  'support.aria': 'Atbalsti Ingara Neijas darbu un šo projektu Buy Me a Coffee',
 
   'skip.content': 'Pāriet uz saturu',
 

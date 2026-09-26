@@ -216,6 +216,14 @@ Pēc katras nozīmīgas izstrādes kārtas tiek atjaunināts `ROADMAP.md`.
 
 Pirms PR izveides izlasi [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Autors un atbalsts
+
+Two-Export Comparator ir neatkarīgs projekts, ko radījis **Ingars Neija** ([QvarcY](https://github.com/QvarcY)) zem **CraftIN** zīmola.
+
+Ja rīks Tev ietaupa laiku un vēlies atbalstīt tā tālāku attīstību:
+
+**☕ [Uzsauc man kafiju](https://buymeacoffee.com/craftin)**
+
 ## Drošība
 
 Lūdzu, nepublicē sensitīvus biznesa eksportus issues, pull requestos, screenshots vai testa fixtures.
