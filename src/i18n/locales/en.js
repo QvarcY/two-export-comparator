@@ -9,6 +9,10 @@ export default {
   'app.localOnly': 'Local only',
   'app.filesNeverLeave': 'Files never leave this browser',
 
+  'support.message': 'Useful tool?',
+  'support.link': 'Buy me a coffee',
+  'support.aria': 'Support this project on Buy Me a Coffee',
+
   'skip.content': 'Skip to content',
 
   'landing.titlePrefix': 'Compare two exports. ',

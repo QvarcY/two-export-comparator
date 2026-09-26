@@ -1937,3 +1937,41 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   Project support
+   ========================================================================== */
+.app-support {
+  padding: 0 var(--space-4) var(--space-8);
+  color: var(--color-text-3);
+}
+
+.app-support__inner {
+  width: min(100%, var(--container-max));
+  margin: 0 auto;
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--text-xs);
+}
+
+.app-support__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-2);
+  font-weight: var(--weight-semi);
+}
+
+.app-support__link:hover {
+  color: var(--color-accent);
+}
+
+.app-support__icon {
+  line-height: 1;
+}

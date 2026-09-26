@@ -9,6 +9,10 @@ export default {
   'app.localOnly': 'Tikai lokāli',
   'app.filesNeverLeave': 'Faili nekad neatstāj šo pārlūku',
 
+  'support.message': 'Rīks noder?',
+  'support.link': 'Uzsauc man kafiju',
+  'support.aria': 'Atbalsti šo projektu Buy Me a Coffee',
+
   'skip.content': 'Pāriet uz saturu',
 
   'landing.titlePrefix': 'Salīdzini divus eksportus. ',

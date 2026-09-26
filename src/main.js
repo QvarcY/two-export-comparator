@@ -55,10 +55,30 @@ export function startApp(config = {}) {
     resultsView.root,
   ]);
 
+  const supportText = el('span');
+  const supportLinkText = el('span');
+  const supportLink = el('a', {
+    class: 'app-support__link',
+    href: 'https://buymeacoffee.com/craftin',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+  }, [
+    el('span', { class: 'app-support__icon', text: '☕', 'aria-hidden': 'true' }),
+    supportLinkText,
+  ]);
+
+  const support = el('footer', { class: 'app-support' }, [
+    el('div', { class: 'app-support__inner' }, [
+      supportText,
+      supportLink,
+    ]),
+  ]);
+
   replaceChildren(root, [
     SkipLink(),
     header,
     main,
+    support,
     toastHost.root,
   ]);
 
@@ -71,6 +91,9 @@ export function startApp(config = {}) {
     tagline.textContent = t('app.tagline');
     privacyText.textContent = t('app.localOnly');
     privacyBadge.title = t('app.filesNeverLeave');
+    supportText.textContent = t('support.message');
+    supportLinkText.textContent = t('support.link');
+    supportLink.setAttribute('aria-label', t('support.aria'));
   };
 
   const syncState = () => {
