@@ -1973,24 +1973,14 @@
   font-weight: var(--weight-semi);
 }
 
-.creator-strip__author,
-.creator-strip__brand {
+.creator-strip__author {
   color: var(--color-text-0);
   font-weight: var(--weight-semi);
   text-decoration: none;
 }
 
-.creator-strip__brand {
-  color: var(--color-accent);
-}
-
-.creator-strip__author:hover,
-.creator-strip__brand:hover {
+.creator-strip__author:hover {
   text-decoration: underline;
-}
-
-.creator-strip__separator {
-  color: var(--color-text-3);
 }
 
 .creator-strip__support {
@@ -2091,22 +2081,23 @@
   font-size: var(--text-sm);
 }
 
-.app-support__author-name {
-  color: var(--color-text-0);
-  font-weight: var(--weight-semi);
-}
-
-.app-support__alias {
-  font-family: var(--font-mono);
-}
-
-.app-support__brand {
-  color: var(--color-accent);
+.app-support__author-name,
+.app-support__github {
   font-weight: var(--weight-semi);
   text-decoration: none;
 }
 
-.app-support__brand:hover {
+.app-support__author-name {
+  color: var(--color-text-0);
+  font-family: var(--font-mono);
+}
+
+.app-support__github {
+  color: var(--color-accent);
+}
+
+.app-support__author-name:hover,
+.app-support__github:hover {
   text-decoration: underline;
 }
 

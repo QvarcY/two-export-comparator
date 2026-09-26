@@ -218,7 +218,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
 ## Author & support
 
-Two-Export Comparator is an independent project created by **Ingars Neija** ([QvarcY](https://github.com/QvarcY)) under **CraftIN**.
+Two-Export Comparator is an independent project created by **[QvarcY](https://github.com/QvarcY)**.
 
 If the tool saves you time and you want to support further development:
 

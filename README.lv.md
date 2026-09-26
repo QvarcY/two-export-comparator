@@ -218,7 +218,7 @@ Pirms PR izveides izlasi [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Autors un atbalsts
 
-Two-Export Comparator ir neatkarīgs projekts, ko radījis **Ingars Neija** ([QvarcY](https://github.com/QvarcY)) zem **CraftIN** zīmola.
+Two-Export Comparator ir neatkarīgs projekts, ko radījis **[QvarcY](https://github.com/QvarcY)**.
 
 Ja rīks Tev ietaupa laiku un vēlies atbalstīt tā tālāku attīstību:
 

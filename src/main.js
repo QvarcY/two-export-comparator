@@ -48,14 +48,7 @@ export function startApp(config = {}) {
     href: 'https://github.com/QvarcY',
     target: '_blank',
     rel: 'noopener noreferrer',
-    text: 'Ingars Neija',
-  });
-  const creatorBrand = el('a', {
-    class: 'creator-strip__brand',
-    href: 'https://www.craftin.lv',
-    target: '_blank',
-    rel: 'noopener noreferrer',
-    text: 'CraftIN',
+    text: 'QvarcY',
   });
   const creatorSupportText = el('span');
   const creatorSupport = el('a', {
@@ -76,8 +69,6 @@ export function startApp(config = {}) {
       el('div', { class: 'creator-strip__identity' }, [
         creatorLabel,
         creatorName,
-        el('span', { class: 'creator-strip__separator', text: '·', 'aria-hidden': 'true' }),
-        creatorBrand,
       ]),
       creatorSupport,
     ]),
@@ -110,14 +101,19 @@ export function startApp(config = {}) {
     supportLinkText,
   ]);
 
-  const footerAuthor = el('span', { class: 'app-support__author-name', text: 'Ingars Neija' });
-  const footerAlias = el('span', { class: 'app-support__alias', text: 'QvarcY' });
-  const footerBrand = el('a', {
-    class: 'app-support__brand',
-    href: 'https://www.craftin.lv',
+  const footerAuthor = el('a', {
+    class: 'app-support__author-name',
+    href: 'https://github.com/QvarcY',
     target: '_blank',
     rel: 'noopener noreferrer',
-    text: 'CraftIN',
+    text: 'QvarcY',
+  });
+  const footerGithub = el('a', {
+    class: 'app-support__github',
+    href: 'https://github.com/QvarcY',
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    text: 'GitHub ↗',
   });
 
   const support = el('footer', { class: 'app-support' }, [
@@ -128,9 +124,7 @@ export function startApp(config = {}) {
         el('div', { class: 'app-support__author-line' }, [
           footerAuthor,
           el('span', { text: '·' }),
-          footerAlias,
-          el('span', { text: '·' }),
-          footerBrand,
+          footerGithub,
         ]),
         supportText,
       ]),
