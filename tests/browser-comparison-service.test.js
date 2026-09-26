@@ -33,18 +33,33 @@ test('real browser service inspects files, suggests mappings and compares actual
 
   const suggestions = await service.suggestMappings(fileA, fileB);
 
+  assert.equal(suggestions[0].role, 'key');
   assert.equal(suggestions[0].columnA, 'Reference');
   assert.equal(suggestions[0].columnB, 'Payment Ref');
-  assert.ok(suggestions.some((item) => item.columnA === 'Amount' && item.columnB === 'Total'));
-  assert.ok(suggestions.some((item) => item.columnA === 'Date' && item.columnB === 'Paid Date'));
+  assert.ok(suggestions.some((item) => (
+    item.role === 'comparison' &&
+    item.columnA === 'Amount' &&
+    item.columnB === 'Total'
+  )));
+  assert.ok(suggestions.some((item) => (
+    item.role === 'comparison' &&
+    item.columnA === 'Date' &&
+    item.columnB === 'Paid Date'
+  )));
+  assert.ok(!suggestions.some((item) => (
+    item.columnA === 'Description' &&
+    item.columnB === 'Customer'
+  )));
 
-  const key = suggestions[0];
-  const comparisons = suggestions.slice(1).map((item) => ({
-    columnA: item.columnA,
-    columnB: item.columnB,
-    type: fileA.columns.find((column) => column.id === item.columnA)?.inferredType ?? 'text',
-    tolerance: { mode: 'absolute', value: 0.01 },
-  }));
+  const key = suggestions.find((item) => item.role === 'key');
+  const comparisons = suggestions
+    .filter((item) => item.role === 'comparison')
+    .map((item) => ({
+      columnA: item.columnA,
+      columnB: item.columnB,
+      type: fileA.columns.find((column) => column.id === item.columnA)?.inferredType ?? 'text',
+      tolerance: { mode: 'absolute', value: 0.01 },
+    }));
 
   const result = await service.compare({
     fileAId: fileA.id,
@@ -76,4 +91,61 @@ test('real browser service inspects files, suggests mappings and compares actual
 
   const inv1011 = result.records.find((record) => record.keyLabel === 'inv-1011');
   assert.equal(inv1011.status, 'MISMATCH');
+});
+
+test('does not suggest semantically conflicting text columns even with perfect value overlap', async () => {
+  const service = new BrowserComparisonService();
+
+  const fileA = await service.inspectFile(fakeFile(
+    'a.csv',
+    'Reference,Description\nINV-1,Acme\nINV-2,Beta\n'
+  ), { slot: 'A' });
+
+  const fileB = await service.inspectFile(fakeFile(
+    'b.csv',
+    'Payment Ref,Customer\nINV-1,Acme\nINV-2,Beta\n'
+  ), { slot: 'B' });
+
+  const suggestions = await service.suggestMappings(fileA, fileB);
+
+  assert.equal(suggestions[0].role, 'key');
+  assert.ok(!suggestions.some((item) => (
+    item.columnA === 'Description' &&
+    item.columnB === 'Customer'
+  )));
+});
+
+test('refuses automatic mapping when two identifier keys are equally plausible', async () => {
+  const service = new BrowserComparisonService();
+
+  const text = [
+    'Primary ID,Secondary ID,Amount',
+    'A1,X1,10.00',
+    'A2,X2,20.00',
+    'A3,X3,30.00',
+    '',
+  ].join('\n');
+
+  const fileA = await service.inspectFile(fakeFile('a.csv', text), { slot: 'A' });
+  const fileB = await service.inspectFile(fakeFile('b.csv', text), { slot: 'B' });
+
+  const suggestions = await service.suggestMappings(fileA, fileB);
+
+  assert.deepEqual(suggestions, []);
+});
+
+test('CSV export protects formula-like key cells', async () => {
+  const service = new BrowserComparisonService();
+
+  const blob = await service.createExport({
+    records: [{
+      status: 'ONLY_A',
+      keyLabel: '=2+2',
+      source: { rowA: 2, rowB: null },
+      differences: [],
+    }],
+  });
+
+  const csv = await blob.text();
+  assert.match(csv, /ONLY_A,'=2\+2,2,,/);
 });
