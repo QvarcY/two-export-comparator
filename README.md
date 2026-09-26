@@ -7,7 +7,7 @@
 > **Two files in. Differences out.**  
 > A privacy-first browser tool that compares two CSV/TSV exports locally and shows the differences side by side.
 
-**Status:** `v0.1.0-alpha.2` candidate — pre-release / active development
+**Status:** latest prerelease: `v0.1.0-alpha.2` — active development
 
 ## Why this exists
 
@@ -193,10 +193,10 @@ Current direction:
 1. ✅ project architecture and frontend foundation
 2. ✅ Visual Diff as the primary UX
 3. ✅ real local CSV/TSV engine MVP
-4. 🟡 harden matching and normalization
-5. ⬜ export/privacy/security review
-6. ⬜ accessibility, performance and regression quality gate
-7. ⬜ static/offline distribution
+4. ✅ matching and normalization hardening
+5. 🟡 export/privacy/security review
+6. 🟡 accessibility, performance and regression quality gate
+7. 🟡 static distribution hardening
 8. ⬜ public release
 
 Every meaningful development round updates `ROADMAP.md`.
