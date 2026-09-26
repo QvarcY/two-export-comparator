@@ -2,6 +2,8 @@
 
 [English](README.md) · [Latviešu](README.lv.md)
 
+![Two-Export Comparator — side-by-side visual diff](docs/assets/hero.svg)
+
 > **Two files in. Differences out.**  
 > A privacy-first browser tool that compares two CSV/TSV exports locally and shows the differences side by side.
 

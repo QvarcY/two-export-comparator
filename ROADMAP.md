@@ -16,7 +16,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ MockComparisonService for deterministic UI development.
 - ✅ Baseline Git repository and frontend branch strategy.
 
-## Phase 1 — Frontend prototype and project foundation / Frontend prototips un projekta pamats 🟡
+## Phase 1 — Frontend prototype and project foundation / Frontend prototips un projekta pamats ✅
 
 - ✅ Modern dark-first UI prototype.
 - ✅ File A / File B panels.
@@ -40,12 +40,12 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Comparison failure returns to a usable mapping state.
 - ✅ Package metadata aligned with the Vite 7 lockfile baseline.
 - ✅ Repository line-ending policy added.
-- 🟡 Clean production build verification pending.
+- ✅ Clean production build verified locally with Vite 7.3.6.
 - 🟡 Source-generated parser warnings will move to code-based localization in Phase 2.
 
 **Exit criteria:** complete bilingual UI, clean build, no duplicate IDs, package metadata consistent, no known frontend blocker.
 
-## Phase 2 — Real file inspection and parsing / Īsta failu pārbaude un parsēšana 🟡
+## Phase 2 — Real file inspection and parsing / Īsta failu pārbaude un parsēšana ✅
 
 - ✅ Replace mock file inspection in BrowserComparisonService.
 - ✅ CSV parser with quoted fields and multiline quoted values.
@@ -145,8 +145,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
 | 2026-09-26 | R3 — Live i18n + frontend cleanup | ✅ | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified mapping and fixed mock slot replacement/error recovery. |
 | 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
-| 2026-09-26 | R5 — Real browser engine MVP | 🟡 | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Added regression fixtures/tests. Local build/test verification pending. |\n| 2026-09-26 | R6 — Repository polish | 🟡 | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance and added GitHub issue/PR templates. |
+| 2026-09-26 | R5 — Real browser engine MVP | ✅ | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Regression fixtures pass (4/4) and production build verified locally. |\n| 2026-09-26 | R6 — Repository polish | ✅ | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance, added GitHub issue/PR templates, README hero artwork and CI workflow. |
 
 ## Next target / Nākamais mērķis
 
-**R5 exit check:** run npm test and npm run build, then load the supplied File A/File B fixtures and verify that the Visual Diff is produced from their real contents rather than mock data.
+**Next:** harden automatic matching/normalization without expanding the core workflow, then prepare the first public release candidate.

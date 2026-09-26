@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Two-Export Comparator</title>
+  <desc id="desc">Privacy-first local CSV and TSV visual diff tool</desc>
+  <rect width="1280" height="640" rx="28" fill="#0b0f14"/>
+  <rect x="34" y="34" width="1212" height="572" rx="22" fill="#0f141b" stroke="#1d2632"/>
+  <text x="78" y="105" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#f4f7fb">Two-Export Comparator</text>
+  <text x="78" y="139" font-family="Arial, Helvetica, sans-serif" font-size="16" fill="#8fa0b5">Two files in. Differences out. Local only.</text>
+
+  <rect x="78" y="188" width="495" height="300" rx="18" fill="#121922" stroke="#243142"/>
+  <rect x="707" y="188" width="495" height="300" rx="18" fill="#121922" stroke="#243142"/>
+  <text x="102" y="220" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#7e8da1">FILE A</text>
+  <text x="731" y="220" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#7e8da1">FILE B</text>
+
+  <rect x="102" y="245" width="447" height="62" rx="10" fill="#101b22" stroke="#1d4155"/>
+  <rect x="731" y="245" width="447" height="62" rx="10" fill="#101b22" stroke="#1d4155"/>
+  <text x="122" y="274" font-family="monospace" font-size="15" font-weight="700" fill="#dce8f4">INV-1001</text>
+  <text x="751" y="274" font-family="monospace" font-size="15" font-weight="700" fill="#dce8f4">INV-1001</text>
+  <text x="122" y="295" font-family="monospace" font-size="13" fill="#8fb6d0">125.00</text>
+  <text x="751" y="295" font-family="monospace" font-size="13" fill="#8fb6d0">125.00</text>
+
+  <rect x="102" y="327" width="447" height="88" rx="10" fill="#211417" stroke="#70333d"/>
+  <rect x="731" y="327" width="447" height="88" rx="10" fill="#211417" stroke="#70333d"/>
+  <text x="122" y="356" font-family="monospace" font-size="15" font-weight="700" fill="#f1dfe2">INV-1002</text>
+  <text x="751" y="356" font-family="monospace" font-size="15" font-weight="700" fill="#f1dfe2">INV-1002</text>
+  <rect x="118" y="371" width="130" height="27" rx="6" fill="#3a1f25"/>
+  <rect x="747" y="371" width="130" height="27" rx="6" fill="#3a1f25"/>
+  <text x="132" y="390" font-family="monospace" font-size="13" fill="#ffb8c0">125.00</text>
+  <text x="761" y="390" font-family="monospace" font-size="13" fill="#ffb8c0">152.00</text>
+
+  <rect x="587" y="343" width="106" height="40" rx="20" fill="#331b20"/>
+  <text x="640" y="368" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" fill="#ff9daa">DIFFERENT</text>
+
+  <rect x="102" y="435" width="447" height="32" rx="8" fill="#171d25"/>
+  <rect x="731" y="435" width="447" height="32" rx="8" fill="#171d25"/>
+  <text x="122" y="456" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#7792a9">matching rows stay visually quiet</text>
+  <text x="751" y="456" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#7792a9">matching rows stay visually quiet</text>
+
+  <rect x="78" y="526" width="225" height="42" rx="21" fill="#102a1d" stroke="#24583a"/>
+  <text x="191" y="552" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" fill="#8ae0aa">No upload · No account</text>
+  <text x="1202" y="553" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="12" fill="#607086">CSV · TSV · Visual Diff</text>
+</svg>

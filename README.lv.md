@@ -2,6 +2,8 @@
 
 [English](README.md) · [Latviešu](README.lv.md)
 
+![Two-Export Comparator — vizuāls salīdzinājums blakus](docs/assets/hero.svg)
+
 > **Divi faili iekšā. Atšķirības ārā.**  
 > Privātumam draudzīgs pārlūka rīks, kas lokāli salīdzina divus CSV/TSV eksportus un vizuāli parāda atšķirības blakus.
 
