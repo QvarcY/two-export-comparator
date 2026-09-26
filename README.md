@@ -7,7 +7,7 @@
 > **Two files in. Differences out.**  
 > A privacy-first browser tool that compares two CSV/TSV exports locally and shows the differences side by side.
 
-**Status:** `v0.1.0-alpha.1` candidate — pre-release / active development
+**Status:** `v0.1.0-alpha.2` candidate — pre-release / active development
 
 ## Why this exists
 

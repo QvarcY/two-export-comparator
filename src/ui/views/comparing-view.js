@@ -46,7 +46,12 @@ export class ComparingView {
 
     replaceChildren(this.root, [
       el('div', { class: 'u-container' }, [
-        el('section', { class: 'comparing' }, [
+        el('section', {
+          class: 'comparing',
+          'aria-live': 'polite',
+          'aria-busy': 'true',
+          'aria-atomic': 'true',
+        }, [
           el('div', { class: 'comparing__spinner', 'aria-hidden': 'true' }),
           el('h2', { class: 'comparing__title', text: title }),
           el('p', { class: 'comparing__subtitle u-text-muted', text: t('comparing.local') }),
