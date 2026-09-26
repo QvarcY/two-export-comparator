@@ -145,7 +145,7 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R2 — i18n + documentation foundation | ✅ | EN/LV locale registry, bilingual README, translation guide, roadmap, line-ending policy and package cleanup. |
 | 2026-09-26 | R3 — Live i18n + frontend cleanup | ✅ | Fixed language-switch reset/crash, wired EN/LV through the workflow, kept files in memory during locale changes, simplified mapping and fixed mock slot replacement/error recovery. |
 | 2026-09-26 | R4 — Visual Diff pivot | ✅ | Product flow changed to Upload → automatic comparison → side-by-side Visual Diff. Manual mapping moved behind Expert settings. |
-| 2026-09-26 | R5 — Real browser engine MVP | 🟡 | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Added regression fixtures/tests. Local build/test verification pending. |
+| 2026-09-26 | R5 — Real browser engine MVP | 🟡 | Replaced mock default with real local CSV/TSV parsing, automatic mapping suggestions and deterministic comparison sufficient for the Visual Diff flow. Added regression fixtures/tests. Local build/test verification pending. |\n| 2026-09-26 | R6 — Repository polish | 🟡 | Reworked EN/LV README around the Visual Diff product promise, documented strict project scope, strengthened contribution/security guidance and added GitHub issue/PR templates. |
 
 ## Next target / Nākamais mērķis
 

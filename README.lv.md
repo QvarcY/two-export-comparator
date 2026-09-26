@@ -2,148 +2,223 @@
 
 [English](README.md) · [Latviešu](README.lv.md)
 
-**Divi faili iekšā. Atšķirības ārā. Bez konta. Bez augšupielādes. Bez mākoņdatubāzes.**
+> **Divi faili iekšā. Atšķirības ārā.**  
+> Privātumam draudzīgs pārlūka rīks, kas lokāli salīdzina divus CSV/TSV eksportus un vizuāli parāda atšķirības blakus.
 
-Two-Export Comparator ir privātumam draudzīgs pārlūka rīks divu eksportētu datu kopu salīdzināšanai, lai atrastu trūkstošus, dublētus, neskaidri savietojamus vai atšķirīgus ierakstus.
-
-Projekta mērķis apzināti ir šaurs: **ieliec divus eksportus, savieno vajadzīgās kolonnas, salīdzini lokāli, pārbaudi atšķirības un eksportē rezultātu.**
-
-> **Pašreizējais statuss:** frontend prototips un arhitektūras pamats. Produkcijas CSV/TSV parseris un īstais salīdzināšanas dzinējs vēl nav ieviests. Pašreizējais interfeiss izmanto determinētus mock datus, kamēr īstais dzinējs tiek veidots aiz stabila servisa kontrakta.
+**Statuss:** pirms publiskā laidiena / aktīvā izstrādē
 
 ## Kāpēc šis projekts pastāv
 
-Mazie uzņēmumi regulāri eksportē datus no bankām, internetveikaliem, maksājumu sistēmām, noliktavas rīkiem, CRM, grāmatvedības sistēmām un izklājlapām. Sarežģītā daļa bieži nav eksporta iegūšana, bet atbilde uz vienkāršu jautājumu:
+Divu eksportu salīdzināšanai nevajadzētu prasīt Excel formulu labirintu, failu augšupielādi mākonī vai datu inženiera zināšanas.
 
-**Kas šajos divos failos nesakrīt?**
+Two-Export Comparator tiek veidots ap vienu ļoti vienkāršu plūsmu:
 
-Tipiski piemēri:
-
-- bankas eksports pret rēķinu eksportu;
-- veikala pasūtījumi pret maksājumu sistēmas eksportu;
-- noliktavas eksports pret internetveikala eksportu;
-- vecais piegādātāja cenu saraksts pret jauno;
-- divas atskaites, kurās būtu jābūt vienādām atsaucēm un summām.
-
-Šis projekts nav paredzēts kā ERP, CRM, grāmatvedības sistēma vai mākoņa datu platforma.
-
-## Privātuma modelis
-
-Biznesa failos var būt sensitīva komerciāla vai personas informācija, tāpēc aplikācija tiek veidota ap lokālu apstrādi.
-
-Plānotie produkcijas noteikumi:
-
-- failu saturs tiek apstrādāts pārlūkā;
-- aplikācija failus neaugšupielādē;
-- lietotāja konts nav nepieciešams;
-- aplikācijas datubāzē importētie faili netiek glabāti;
-- salīdzināšanas darbplūsmai nav nepieciešama analītika vai telemetrija;
-- ārējs JavaScript CDN nav nepieciešams;
-- importētās vērtības tiek attēlotas ar drošām DOM metodēm;
-- aizverot vai pārlādējot lapu, atmiņā ielādētie biznesa dati pazūd.
-
-Šī arhitektūra samazina nevajadzīgu datu pārsūtīšanu, taču projekts neizsaka vispārīgus juridiskus apgalvojumus, piemēram, “100% atbilst GDPR”.
-
-## Darbplūsma
-
-~~~text
-FAILS A + FAILS B
+```text
+Ieliec Failu A + Failu B
         ↓
-AUTOMĀTISKA LOKĀLA ANALĪZE
+Automātiska lokāla analīze
         ↓
-VIZUĀLS SALĪDZINĀJUMS BLAKUS
+Vizuāls salīdzinājums blakus
         ↓
-SARKANS = ATŠĶIRĪBA / NEITRĀLS = SAKRĪT
+Sarkans = atšķiras
+Neitrāls / zils = sakrīt
         ↓
-PĒC VAJADZĪBAS — EKSPERTA IESTATĪJUMI
-        ↓
-ATSKAITES EKSPORTS
-~~~
+Eksportē rezultātu
+```
 
-## Rezultātu kategorijas
+Parastam lietotājam nav jāzina salīdzināšanas algoritmi, normalizācijas noteikumi vai kolonnu sasaistes terminoloģija. Rīks cenšas šo darbu izdarīt automātiski. Manuālā sasaistīšana paliek tikai zem **Eksperta iestatījumiem**.
+
+## Ko rīks meklē
+
+Salīdzināšanas dzinējs ierakstus var klasificēt šādi:
 
 | Statuss | Nozīme |
 | --- | --- |
-| MATCHED | Atrasts viens drošs ierakstu pāris un salīdzinātās vērtības atbilst. |
-| ONLY_A | Ieraksts atrodas tikai Failā A. |
-| ONLY_B | Ieraksts atrodas tikai Failā B. |
-| MISMATCH | Atslēga sakrīt, bet viena vai vairākas salīdzinātās vērtības atšķiras. |
-| DUPLICATE | Viena normalizēta atslēga sastopama vairākas reizes. |
-| AMBIGUOUS | Nav iespējams droši noteikt vienu pāri; dzinējs nedrīkst minēt. |
+| `MATCHED` | Atrasts viens drošs ierakstu pāris, un salīdzinātās vērtības sakrīt. |
+| `MISMATCH` | Tas pats ieraksts atrasts abos failos, bet viena vai vairākas vērtības atšķiras. |
+| `ONLY_A` | Ieraksts atrodas tikai Failā A. |
+| `ONLY_B` | Ieraksts atrodas tikai Failā B. |
+| `DUPLICATE` | Viena normalizēta atslēga sastopama vairākas reizes. |
+| `AMBIGUOUS` | Vienu drošu pāri nav iespējams noteikt. Dzinējs nemin. |
+
+## Pašreizējās iespējas
+
+- CSV un TSV faili
+- komata, semikola un tabulācijas atdalītāju noteikšana
+- CSV lauki pēdiņās
+- vairāku rindu vērtības pēdiņās
+- UTF-8 un UTF-8 BOM
+- teksta, skaitļu un datumu pamata tipu noteikšana
+- automātiski kolonnu pāru ieteikumi
+- determinēta lokāla salīdzināšana
+- skaitliska pielaide
+- dublikātu un neskaidru sasaistes gadījumu noteikšana
+- avota rindu izsekojamība
+- vizuāls salīdzinājums blakus
+- CSV rezultāta eksports
+- angļu un latviešu interfeiss
+- valodu reģistrs, kuru viegli papildināt contributoriem
+
+## Privātums pēc arhitektūras
+
+Biznesa eksportos var būt sensitīva informācija. Tāpēc aplikācijas parastajai salīdzināšanas plūsmai nav nepieciešams sūtīt failus uz serveri.
+
+- faili tiek nolasīti pārlūkā;
+- aplikācija failu saturu neaugšupielādē;
+- nav nepieciešams lietotāja konts;
+- importētie biznesa dati netiek glabāti aplikācijas datubāzē;
+- salīdzināšanai nav nepieciešama analītika vai telemetrija;
+- importētās vērtības tiek attēlotas ar drošām DOM metodēm;
+- pārlādējot vai aizverot lapu, atmiņā ielādētie dati pazūd.
+
+Tas apraksta arhitektūru, nevis ir vispārīgs juridisks apgalvojums, piemēram, “100% atbilst GDPR”.
+
+## Ātra palaišana
+
+Nepieciešams:
+
+- aktuāls Node.js
+- npm
+
+```bash
+git clone https://github.com/QvarcY/two-export-comparator.git
+cd two-export-comparator
+npm install
+npm test
+npm run dev
+```
+
+Produkcijas build:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Kā darbojas automātiskā sasaistīšana
+
+Aplikācija analizē kolonnu nosaukumus, noteiktos datu tipus, vērtību pārklāšanos un unikalitāti, lai piedāvātu, kuras kolonnas abos failos nozīmē vienu un to pašu.
+
+Piemēram:
+
+```text
+Reference   ↔ Payment Ref
+Amount      ↔ Total
+Date        ↔ Paid Date
+```
+
+Spēcīgākais identifikatora kandidāts tiek izmantots ierakstu sasaistīšanai. Papildu saderīgie pāri tiek izmantoti vērtību salīdzināšanai.
+
+Automātiskie ieteikumi apzināti ir konservatīvi. Ja drošu sasaisti nevar noteikt, lietotājs var atvērt **Eksperta iestatījumus**, nevis dzinējs klusām izdomā rezultātu.
+
+## Atbalstītie ievades dati
+
+Šobrīd:
+
+- `.csv`
+- `.tsv`
+- UTF-8 / UTF-8 BOM
+- līdz 50 MiB vienam failam pašreizējā MVP
+
+Tādus formātus kā XLSX ir jēga pievienot tikai tad, kad CSV/TSV kodols ir stabils.
+
+## Projekta robežas
+
+Šis projekts apzināti paliek mazs.
+
+**Kodola solījums:**
+
+> Paņem divus failus un vizuāli parādi, kas tajos atšķiras.
+
+Tam nav jākļūst par ERP, CRM, grāmatvedības sistēmu, mākoņa darba vidi, BI platformu vai failu glabātuvi.
+
+Pirms pievienot jaunu funkciju, jāuzdod viens jautājums:
+
+> Vai tas palīdz lietotājam ātrāk saprast atšķirības starp diviem failiem?
+
+Ja nē, tad šī funkcija, visticamāk, nepieder projekta kodolam.
+
+Skati [PROJECT_SCOPE.md](docs/PROJECT_SCOPE.md).
 
 ## Arhitektūra
 
-~~~text
+```text
 src/
-├── app/          aplikācijas stāvoklis un kontrolieris
+├── app/          stāvoklis + aplikācijas kontrolieris
+├── engine/       parsēšana, normalizācija, sasaistīšana un salīdzināšana
 ├── i18n/         valodu reģistrs un tulkojumi
-├── models/       stabili DTO / servisa kontrakti
-├── services/     mock un nākotnes pārlūka salīdzināšanas serviss
+├── models/       DTO / servisa kontrakti
+├── services/     pārlūka salīdzināšanas serviss
 ├── ui/
 │   ├── components/
 │   ├── renderers/
 │   └── views/
 └── styles/
-~~~
+```
 
-UI sazinās tikai ar ComparisonService robežu. Produkcijas parseris, normalizētāji un salīdzināšanas dzinējs atradīsies aiz BrowserComparisonService, tāpēc, nomainot mock servisu pret īsto dzinēju, interfeiss nav jāpārbūvē.
+UI ir atkarīgs no `ComparisonService` robežas, nevis no parsera iekšējās uzbūves. Tas neļauj salīdzināšanas loģikai sajaukties ar UI komponentiem.
+
+## Izstrādes principi
+
+- viena skaidra problēma, atrisināta labi;
+- local-first, kur tas ir praktiski;
+- nekādas klusās minēšanas neskaidru datu gadījumā;
+- minimālas dependencies;
+- droša importēto vērtību attēlošana;
+- pieejamas vadīklas;
+- determinēta loģika pirms AI;
+- regression testam jānokrīt, ja aizsargātā uzvedība tiek sabojāta.
 
 ## Valodas
 
-Pirmās oficiālās UI valodas:
+Oficiālās UI valodas:
 
-- angļu (EN);
-- latviešu (LV).
+- English (`en`)
+- Latviešu (`lv`)
 
-Valodu pārslēdzējs tiek veidots no valodu reģistra. Contributors var pievienot jaunu valodu, neaiztiekot salīdzināšanas loģiku.
+Jaunas valodas pievienošana neprasa mainīt salīdzināšanas loģiku.
 
 Skati [Tulkošanas rokasgrāmatu](docs/TRANSLATIONS.md).
 
-README tulkojumus var pievienot kā README.xx.md failus un pievienot valodu rindai README augšpusē.
-
-## Izstrāde
-
-~~~bash
-npm install
-npm run dev
-npm run build
-npm run preview
-~~~
-
-Node/Vite tiek izmantots tikai izstrādei un statiskā build izveidei. Produkcijas aplikācija paliek statiska pārlūka aplikācija.
+README tulkojumus var pievienot kā `README.xx.md`.
 
 ## Attīstības plāns
 
-Detalizētais un nepārtraukti atjauninātais plāns atrodas [ROADMAP.md](ROADMAP.md).
+Projekta kanoniskais attīstības žurnāls ir [ROADMAP.md](ROADMAP.md).
 
-Augsta līmeņa ceļš:
+Pašreizējais virziens:
 
-1. ✅ Projekta ideja un arhitektūras pamats
-2. 🟡 Frontend prototips, divvalodu UI pamats un dokumentācija
-3. ⬜ Īsts CSV/TSV failu pārbaudes un parsēšanas slānis
-4. ⬜ Normalizācija un kolonnu savienošanas noteikumi
-5. ⬜ Determinēts salīdzināšanas dzinējs
-6. ⬜ Eksports, privātums un drošības nostiprināšana
-7. ⬜ Testu fixtures, veiktspēja un pieejamība
-8. ⬜ Offline build un publiska izplatīšana
-9. ⬜ Publisks release un contributor ekosistēma
+1. ✅ projekta arhitektūra un frontend pamats
+2. ✅ Visual Diff kā galvenais UX
+3. 🟡 īsts lokāls CSV/TSV dzinējs
+4. ⬜ sasaistīšanas un normalizācijas nostiprināšana
+5. ⬜ eksporta, privātuma un drošības audits
+6. ⬜ pieejamības, veiktspējas un regression kvalitātes vārti
+7. ⬜ statiska/offline izplatīšana
+8. ⬜ publisks laidiens
 
-**Roadmap noteikums:** pēc katras nozīmīgas izstrādes kārtas jāatjaunina ROADMAP.md, lai repo skaidri redzams, kas mainīts, kas pārbaudīts un kas seko tālāk.
+Pēc katras nozīmīgas izstrādes kārtas tiek atjaunināts `ROADMAP.md`.
 
 ## Contribution
 
-Contribution būs gaidīti, tiklīdz attiecīgā projekta daļa būs pietiekami stabila drošam darbam. Tulkojumu contribution apzināti veidots vienkāršs.
+Īpaši noderīgi contribution virzieni:
 
-Skati [CONTRIBUTING.md](CONTRIBUTING.md).
+- parsera edge cases;
+- determinēta sasaistīšana;
+- testa fixtures;
+- pieejamība;
+- veiktspēja;
+- drošības nostiprināšana;
+- tulkojumi;
+- dokumentācija.
 
-## Dizaina principi
+Pirms PR izveides izlasi [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- Viena skaidra problēma, atrisināta labi.
-- Local-first, kur tas ir praktiski.
-- Nekādas klusas minēšanas neskaidru datu gadījumā.
-- Reāla uzvedība svarīgāka par funkciju skaitu.
-- Minimālas dependencies.
-- Pieejamas vadīklas, ne tikai drag-and-drop.
-- Testiem jāpierāda uzvedība un jānokrīt, ja aizsargātā uzvedība tiek sabojāta.
+## Drošība
+
+Lūdzu, nepublicē sensitīvus biznesa eksportus issues, pull requestos, screenshots vai testa fixtures.
+
+Skati [SECURITY.md](SECURITY.md).
 
 ## Licence
 

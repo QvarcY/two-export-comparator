@@ -2,148 +2,223 @@
 
 [English](README.md) · [Latviešu](README.lv.md)
 
-**Two files in. Differences out. No account. No upload. No cloud database.**
+> **Two files in. Differences out.**  
+> A privacy-first browser tool that compares two CSV/TSV exports locally and shows the differences side by side.
 
-Two-Export Comparator is a privacy-first browser utility for comparing two exported datasets and finding records that are missing, duplicated, ambiguous, or different.
+**Status:** pre-release / active development
 
-The long-term goal is deliberately narrow: **drop two exports, map the relevant columns, compare them locally, inspect the differences, export the result.**
+## Why this exists
 
-> **Current status:** frontend prototype and architecture foundation. The production CSV/TSV parser and real comparison engine are not implemented yet. The current interface uses deterministic mock data while the engine is built behind a stable service contract.
+Comparing exports should not require a spreadsheet formula maze, a cloud upload, or a data-engineering background.
 
-## Why this project exists
+Two-Export Comparator is built around one simple workflow:
 
-Small businesses regularly export data from banks, shops, payment systems, inventory tools, CRMs, accounting tools and spreadsheets. The difficult part is often not producing the export — it is answering a simple question:
-
-**What does not match between these two files?**
-
-Typical examples:
-
-- bank export vs invoice export;
-- shop orders vs payment provider export;
-- warehouse export vs store export;
-- old supplier list vs new supplier list;
-- two reports that should contain the same references and amounts.
-
-This project is not intended to become an ERP, CRM, accounting suite or cloud data platform.
-
-## Privacy model
-
-Business files may contain sensitive commercial or personal data, so the application is designed around local processing.
-
-Planned production rules:
-
-- file contents are processed in the browser;
-- files are not uploaded by the application;
-- no account is required;
-- no application database stores imported files;
-- no analytics or telemetry is required for the comparison workflow;
-- no external JavaScript CDN is required;
-- imported values are rendered with safe DOM APIs;
-- closing or refreshing the page clears in-memory business data.
-
-This architecture reduces unnecessary data transfer, but the project does **not** make blanket legal claims such as “100% GDPR compliant”.
-
-## Workflow
-
-~~~text
-DROP FILE A + FILE B
+```text
+Drop File A + File B
         ↓
-AUTOMATIC LOCAL ANALYSIS
+Automatic local analysis
         ↓
-SIDE-BY-SIDE VISUAL DIFF
+Side-by-side Visual Diff
         ↓
-RED = DIFFERENCE / NEUTRAL = MATCH
+Red = different
+Neutral / blue = matching
         ↓
-OPTIONAL EXPERT SETTINGS
-        ↓
-EXPORT REPORT
-~~~
+Export the result
+```
 
-## Result categories
+The normal user should not need to understand matching algorithms, normalization rules, or column-mapping terminology. The app attempts to do that work automatically. Manual mapping remains available only as **Expert settings**.
+
+## What it looks for
+
+The comparison engine can classify records as:
 
 | Status | Meaning |
 | --- | --- |
-| MATCHED | A unique record pair was found and compared values pass. |
-| ONLY_A | A record exists only in File A. |
-| ONLY_B | A record exists only in File B. |
-| MISMATCH | The key matched, but one or more compared values differ. |
-| DUPLICATE | The same normalized key occurs multiple times. |
-| AMBIGUOUS | A unique safe pairing cannot be determined; the engine must not guess. |
+| `MATCHED` | A unique pair was found and the compared values match. |
+| `MISMATCH` | The same record was found in both files, but one or more values differ. |
+| `ONLY_A` | The record exists only in File A. |
+| `ONLY_B` | The record exists only in File B. |
+| `DUPLICATE` | A normalized key appears multiple times. |
+| `AMBIGUOUS` | A unique safe pairing cannot be determined. The engine does not guess. |
+
+## Current capabilities
+
+- CSV and TSV input
+- comma, semicolon and tab delimiter detection
+- quoted CSV fields
+- multiline quoted values
+- UTF-8 and UTF-8 BOM handling
+- basic type inference for text, numbers and dates
+- automatic column-pair suggestions
+- deterministic local comparison
+- numeric tolerance
+- duplicate and ambiguity detection
+- source-row traceability
+- side-by-side Visual Diff
+- CSV result export
+- English and Latvian UI
+- contributor-friendly locale registry
+
+## Privacy by architecture
+
+Business exports can contain sensitive information. The application is designed so the normal comparison flow does not require sending those files anywhere.
+
+- files are read in the browser;
+- file contents are not uploaded by the application;
+- there is no account requirement;
+- imported business data is not stored in an application database;
+- no analytics or telemetry is required for comparison;
+- imported values are rendered with safe DOM APIs;
+- refreshing or closing the page clears in-memory file data.
+
+This describes the architecture. It is **not** a blanket legal claim such as “100% GDPR compliant”.
+
+## Quick start
+
+Requirements:
+
+- a current Node.js version
+- npm
+
+```bash
+git clone https://github.com/QvarcY/two-export-comparator.git
+cd two-export-comparator
+npm install
+npm test
+npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
+npm run preview
+```
+
+## How automatic matching works
+
+The app analyzes column names, inferred data types, value overlap and uniqueness to suggest which columns represent the same concept across both files.
+
+Examples:
+
+```text
+Reference   ↔ Payment Ref
+Amount      ↔ Total
+Date        ↔ Paid Date
+```
+
+The first strong identifier candidate is used to pair records. Additional compatible pairs are used for comparison.
+
+Automatic suggestions are intentionally conservative. If the app cannot determine a safe mapping, the user can open **Expert settings** instead of the engine silently guessing.
+
+## Supported input
+
+Current target:
+
+- `.csv`
+- `.tsv`
+- UTF-8 / UTF-8 BOM
+- up to 50 MiB per file in the current MVP
+
+Planned formats such as XLSX should only be added after the core CSV/TSV workflow is stable.
+
+## Project scope
+
+This project intentionally stays small.
+
+**Core promise:**
+
+> Take two files and visually show what is different.
+
+The project should not become an ERP, CRM, accounting suite, cloud workspace, BI platform, or file-storage service.
+
+Before adding a feature, ask:
+
+> Does this help the user understand the differences between two files faster?
+
+If the answer is no, it probably does not belong in the core product.
+
+See [PROJECT_SCOPE.md](docs/PROJECT_SCOPE.md).
 
 ## Architecture
 
-~~~text
+```text
 src/
-├── app/          application state and controller
+├── app/          state + application controller
+├── engine/       parsing, normalization, mapping and comparison logic
 ├── i18n/         locale registry and translations
-├── models/       stable DTO / service contracts
-├── services/     mock and future browser comparison service
+├── models/       DTO / service contracts
+├── services/     browser comparison service
 ├── ui/
 │   ├── components/
 │   ├── renderers/
 │   └── views/
 └── styles/
-~~~
+```
 
-The UI talks only to the ComparisonService boundary. The production parser, normalizers and comparison engine will live behind BrowserComparisonService so the interface does not need to be redesigned when the real engine replaces the mock.
+The UI depends on the `ComparisonService` boundary rather than parser internals. This keeps technical comparison logic out of UI components.
+
+## Development principles
+
+- one focused job, done well;
+- local-first where practical;
+- no silent guessing with ambiguous data;
+- minimal dependencies;
+- safe rendering of imported values;
+- accessible controls;
+- deterministic comparison before AI;
+- regression tests must fail when the protected behavior is broken.
 
 ## Languages
 
-The first official UI languages are:
+Official UI languages:
 
-- English (EN)
-- Latvian / Latviešu (LV)
+- English (`en`)
+- Latviešu (`lv`)
 
-The language selector is generated from a locale registry. Contributors can add another language without changing comparison logic.
+Adding another language does not require changing comparison logic.
 
 See [Translation guide](docs/TRANSLATIONS.md).
 
-README translations may be added as README.xx.md files and linked from the language line at the top.
-
-## Development
-
-~~~bash
-npm install
-npm run dev
-npm run build
-npm run preview
-~~~
-
-Node/Vite is used only for development and static bundling. The production application remains a browser-side static application.
+README translations may be added as `README.xx.md`.
 
 ## Roadmap
 
-The detailed, continuously maintained roadmap is in [ROADMAP.md](ROADMAP.md).
+The canonical development ledger is [ROADMAP.md](ROADMAP.md).
 
-High-level path:
+Current direction:
 
-1. ✅ Project concept and architecture baseline
-2. 🟡 Frontend prototype, bilingual UI foundation and documentation
-3. ⬜ Real CSV/TSV inspection and parsing
-4. ⬜ Normalization and column mapping rules
-5. ⬜ Deterministic comparison engine
-6. ⬜ Export, privacy and security hardening
-7. ⬜ Test fixtures, performance and accessibility
-8. ⬜ Offline build and public distribution
-9. ⬜ Public release and contributor ecosystem
+1. ✅ project architecture and frontend foundation
+2. ✅ Visual Diff as the primary UX
+3. 🟡 real local CSV/TSV engine
+4. ⬜ harden matching and normalization
+5. ⬜ export/privacy/security review
+6. ⬜ accessibility, performance and regression quality gate
+7. ⬜ static/offline distribution
+8. ⬜ public release
 
-**Roadmap rule:** every meaningful development round must update ROADMAP.md so the repository shows what changed, what is verified and what comes next.
+Every meaningful development round updates `ROADMAP.md`.
 
 ## Contributing
 
-Contributions are welcome once the relevant area is stable enough to work on safely. Translation contributions are intentionally low-friction.
+Contributions are welcome, especially for:
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+- parser edge cases;
+- deterministic matching;
+- test fixtures;
+- accessibility;
+- performance;
+- security hardening;
+- translations;
+- documentation.
 
-## Design principles
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
-- One focused job, done well.
-- Local-first where practical.
-- No silent guessing when data is ambiguous.
-- Behavior over decorative feature count.
-- Minimal dependencies.
-- Accessible controls, not drag-and-drop only.
-- Tests must prove behavior and must fail when the protected behavior is broken.
+## Security
+
+Please do not publish sensitive business exports in issues, pull requests, screenshots, or fixtures.
+
+See [SECURITY.md](SECURITY.md).
 
 ## License
 
