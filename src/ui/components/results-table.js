@@ -86,17 +86,8 @@ export class ResultsTable {
 
     return el('tr', {
       class: 'results-table__row',
-      tabindex: '0',
       dataset: { status: record.status },
-      role: 'button',
-      'aria-label': t('results.openRecord', { key: record.keyLabel }),
       onclick: () => this._open(record.id),
-      onkeydown: (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          this._open(record.id);
-        }
-      },
     }, [
       el('td', {}, [
         el('span', {
@@ -109,7 +100,15 @@ export class ResultsTable {
       el('td', { class: 'u-text-mono u-text-muted', text: record.source?.rowA ?? '—' }),
       el('td', { class: 'u-text-mono u-text-muted', text: record.source?.rowB ?? '—' }),
       el('td', { class: 'results-table__chevron' }, [
-        icon(Icons.arrowRight, { size: 14 }),
+        el('button', {
+          type: 'button',
+          class: 'btn btn--ghost btn--icon btn--sm results-table__open',
+          'aria-label': t('results.openRecord', { key: record.keyLabel }),
+          onclick: (event) => {
+            event.stopPropagation();
+            this._open(record.id);
+          },
+        }, [icon(Icons.arrowRight, { size: 14 })]),
       ]),
     ]);
   }

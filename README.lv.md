@@ -7,7 +7,7 @@
 > **Divi faili iekšā. Atšķirības ārā.**  
 > Privātumam draudzīgs pārlūka rīks, kas lokāli salīdzina divus CSV/TSV eksportus un vizuāli parāda atšķirības blakus.
 
-**Statuss:** `v0.1.0-alpha.1` kandidāts — pirms publiskā laidiena / aktīvā izstrādē
+**Statuss:** `v0.1.0-alpha.2` kandidāts — pirms publiskā laidiena / aktīvā izstrādē
 
 ## Kāpēc šis projekts pastāv
 

@@ -15,6 +15,8 @@ const STATUS_KEY = {
 export class RecordDetailDrawer {
   constructor(store) {
     this.store = store;
+    this._isOpen = false;
+    this._previousFocus = null;
 
     this.root = el('aside', {
       class: 'record-drawer',
@@ -28,7 +30,15 @@ export class RecordDetailDrawer {
     window.addEventListener(LOCALE_CHANGE_EVENT, () => this._sync());
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && this.store.openRecordId) this._close();
+      if (!this._isOpen) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        this._close();
+        return;
+      }
+
+      if (event.key === 'Tab') this._trapFocus(event);
     });
 
     this._sync();
@@ -44,8 +54,18 @@ export class RecordDetailDrawer {
 
     const id = this.store.openRecordId;
     if (!id || this.store.state !== 'RESULTS') {
+      const shouldRestoreFocus = this._isOpen;
+      this._isOpen = false;
       this.root.hidden = true;
       replaceChildren(this.root, []);
+
+      if (shouldRestoreFocus) {
+        const target = this._previousFocus;
+        this._previousFocus = null;
+        queueMicrotask(() => {
+          if (target instanceof HTMLElement && target.isConnected) target.focus();
+        });
+      }
       return;
     }
 
@@ -55,8 +75,20 @@ export class RecordDetailDrawer {
       return;
     }
 
+    if (!this._isOpen) {
+      this._isOpen = true;
+      this._previousFocus = document.activeElement;
+    }
+
     this.root.hidden = false;
     this._render(record);
+
+    queueMicrotask(() => {
+      const closeButton = this.root.querySelector('[data-dialog-close="true"]');
+      if (closeButton instanceof HTMLElement && !this.root.contains(document.activeElement)) {
+        closeButton.focus();
+      }
+    });
   }
 
   _render(record) {
@@ -92,9 +124,32 @@ export class RecordDetailDrawer {
         class: 'btn btn--ghost btn--icon',
         'aria-label': t('record.close'),
         title: t('record.close'),
+        dataset: { dialogClose: 'true' },
         onclick: () => this._close(),
       }, [icon(Icons.x, { size: 16 })]),
     ]);
+  }
+
+  _trapFocus(event) {
+    const focusable = [...this.root.querySelectorAll(
+      'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter((node) => node instanceof HTMLElement && !node.hidden);
+
+    if (focusable.length === 0) {
+      event.preventDefault();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   _renderExplain(record) {

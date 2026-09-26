@@ -1,14 +1,15 @@
 {
   "name": "two-export-comparator",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "private": true,
   "type": "module",
   "description": "Privacy-first browser utility for comparing two CSV/TSV exports locally.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/verify-dist.mjs",
     "preview": "vite preview",
-    "test": "node --test"
+    "test": "node --test",
+    "verify:dist": "node scripts/verify-dist.mjs"
   },
   "devDependencies": {
     "vite": "^7.0.0"

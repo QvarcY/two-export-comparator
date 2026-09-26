@@ -97,10 +97,10 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ Result CSV export.
 - ⬜ Filtered exports.
 - ✅ CSV formula-injection protection.
-- ⬜ CSP suitable for static deployment, including connect-src 'none' where deployment permits it.
+- ✅ Production build injects a static CSP with `connect-src 'none'`; final host should still prefer equivalent HTTP headers.
 - ✅ No analytics, telemetry or external data APIs in the comparison flow.
 - ✅ No business-file content stored in localStorage, IndexedDB or cookies.
-- 🟡 Automated source invariants now reject network/storage APIs and unsafe HTML/code execution; deployment CSP/download review remains.
+- ✅ Automated source invariants reject network/storage APIs and unsafe HTML/code execution; production dist is verified for CSP and external entry resources.
 - ✅ Privacy claims are protected by automated source invariants for network and persistent browser storage APIs.
 
 ## Phase 6 — Quality gate / Kvalitātes vārti 🟡
@@ -111,17 +111,17 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 - ✅ CSV export regression coverage protects formula-like key cells.
 - ⬜ Integration tests.
 - ⬜ Regression tests that fail on the pre-fix behavior.
-- ⬜ Accessibility audit: keyboard, labels, focus, screen reader semantics.
+- 🟡 Code-level accessibility pass completed for keyboard controls, progress announcements and modal focus management; manual screen-reader/contrast walkthrough remains.
 - ⬜ Responsive review.
 - ✅ EN/LV translation key parity test.
 - ⬜ Contributor translation validation.
 - ✅ 10k-row parse + compare baseline runs in CI.
-- ⬜ Dependency audit.
+- ✅ High-severity dependency audit runs in CI.
 
 ## Phase 7 — Distribution / Izplatīšana ⬜
 
 - ⬜ GitHub Pages deployment.
-- ⬜ Offline-capable static build.
+- 🟡 Relative-path static build is verified and can be served without a backend; full offline/PWA behavior remains intentionally unevaluated.
 - ⬜ Evaluate a self-contained single HTML release.
 - ⬜ Release checksums where useful.
 - ⬜ Public demo with sample data only.
@@ -154,7 +154,8 @@ Status: ✅ complete · 🟡 in progress · ⬜ planned · ⛔ blocked
 | 2026-09-26 | R7 — Alpha release preparation | ✅ | Prepared and published v0.1.0-alpha.1 prerelease metadata, changelog and release notes; simplified CI to one PR check plus one main-branch check and added concurrency cancellation. Social Preview remains deferred until repository publication. |
 | 2026-09-26 | R8 — Automatic matching hardening | ✅ | Added explicit mapping roles, conservative key ambiguity rejection, semantic conflict guards and broader parser/normalization/export regression coverage without changing the primary workflow. |
 | 2026-09-26 | R9 — Alpha quality gate | ✅ | Added conservative date normalization with optional Expert Mode date formats, EN/LV key parity, privacy/security source invariants and a 10k-row CI performance baseline. |
+| 2026-09-26 | R10 — Accessibility + static hardening | 🟡 | Added modal focus trapping/restore, real table action buttons, polite progress announcements, production CSP/static-dist verification and CI dependency auditing. Manual device/screen-reader review and alpha.2 publication remain. |
 
 ## Next target / Nākamais mērķis
 
-**Next:** manual accessibility/responsive review and deployment CSP/static distribution work. Core comparison scope remains frozen.
+**Next:** verify alpha.2 locally, publish `v0.1.0-alpha.2`, then perform the final manual keyboard/responsive/screen-reader walkthrough before repository publication. Core comparison scope remains frozen.
