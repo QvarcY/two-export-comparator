@@ -7,7 +7,27 @@
 > **Two files in. Differences out.**  
 > A privacy-first browser tool that compares two CSV/TSV exports locally and shows the differences side by side.
 
-**Status:** latest prerelease: `v0.1.0-alpha.2` — active development
+**Status:** latest prerelease: `v0.2.0-alpha.1` — portable offline prerelease
+
+## Download & Run
+
+No installation is required.
+
+1. Open the latest GitHub Release.
+2. Download `Two-Export-Comparator-v0.2.0-alpha.1.html`.
+3. Double-click the downloaded file.
+4. Select or drop two CSV/TSV exports.
+5. Compare.
+
+The application runs locally in your browser.
+
+- No account required
+- No installation required
+- No Node.js required
+- Internet access is not required
+- Imported CSV/TSV files are not uploaded by the application
+
+If your system asks how to open `.html` files, choose a modern browser such as Chrome, Edge, or Firefox.
 
 ## Why this exists
 
@@ -75,7 +95,7 @@ Business exports can contain sensitive information. The application is designed 
 
 This describes the architecture. It is **not** a blanket legal claim such as “100% GDPR compliant”.
 
-## Quick start
+## Development
 
 Requirements:
 
@@ -141,6 +161,28 @@ Before adding a feature, ask:
 If the answer is no, it probably does not belong in the core product.
 
 See [PROJECT_SCOPE.md](docs/PROJECT_SCOPE.md).
+
+## Portable build
+
+Create the single-file offline build:
+
+```bash
+npm run build:portable
+```
+
+Create versioned portable release artifacts:
+
+```bash
+npm run release:portable
+```
+
+The release process generates:
+
+- a versioned standalone HTML file;
+- a ZIP archive;
+- `SHA256SUMS.txt`.
+
+The standalone HTML file contains the application JavaScript and CSS internally and is designed to run directly from `file://` without a local server.
 
 ## Architecture
 
