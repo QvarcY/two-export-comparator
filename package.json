@@ -9,7 +9,8 @@
     "build": "vite build && node scripts/verify-dist.mjs",
     "preview": "vite preview",
     "test": "node --test",
-    "verify:dist": "node scripts/verify-dist.mjs"
+    "verify:dist": "node scripts/verify-dist.mjs",
+    "build:portable": "vite build --mode portable && node scripts/build-portable.mjs && node scripts/verify-portable.mjs"
   },
   "devDependencies": {
     "vite": "^7.0.0"

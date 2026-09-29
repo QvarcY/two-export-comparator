@@ -30,18 +30,29 @@ function staticCspPlugin() {
   };
 }
 
-export default defineConfig(({ command }) => ({
-  base: './',
-  plugins: command === 'build' ? [staticCspPlugin()] : [],
-  build: {
-    target: 'es2022',
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: false,
-    cssCodeSplit: false,
-  },
-  server: {
-    port: 5173,
-    open: true,
-  },
-}));
+export default defineConfig(({ command, mode }) => {
+  const portable = mode === 'portable';
+
+  return {
+    base: './',
+
+    plugins:
+      command === 'build' && !portable
+        ? [staticCspPlugin()]
+        : [],
+
+    build: {
+      target: 'es2022',
+      outDir: portable ? '.portable-build' : 'dist',
+      assetsDir: 'assets',
+      sourcemap: false,
+      cssCodeSplit: false,
+      emptyOutDir: true,
+    },
+
+    server: {
+      port: 5173,
+      open: true,
+    },
+  };
+});
